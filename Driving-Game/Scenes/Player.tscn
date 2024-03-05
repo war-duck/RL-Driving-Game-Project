@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://b1pujpke4x8th"]
+
+[ext_resource type="Script" path="res://Code/Player.cs" id="1_b0fti"]
+[ext_resource type="PackedScene" uid="uid://de2uc8a1fqmpo" path="res://Scenes/Wheel.tscn" id="1_mciyx"]
+[ext_resource type="Texture2D" uid="uid://ceycw5p0qhqv3" path="res://Images/Car/Car.png" id="2_im8i0"]
+
+[node name="Player" type="RigidBody2D" groups=["carBody", "player"]]
+script = ExtResource("1_b0fti")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-224, -46, -220, 70, -188, 96, 201, 95, 214, 79, 215, -4, 6, -61, -201, -58)
+
+[node name="WheelHolderBack" type="PinJoint2D" parent="."]
+position = Vector2(-153, 102)
+node_a = NodePath("..")
+node_b = NodePath("Wheel")
+softness = 1.2
+
+[node name="Wheel" parent="WheelHolderBack" instance=ExtResource("1_mciyx")]
+
+[node name="WheelHolderFront" type="PinJoint2D" parent="."]
+position = Vector2(110, 102)
+node_a = NodePath("..")
+node_b = NodePath("Wheel")
+softness = 1.2
+
+[node name="Wheel" parent="WheelHolderFront" instance=ExtResource("1_mciyx")]
+
+[node name="Car" type="Sprite2D" parent="."]
+texture = ExtResource("2_im8i0")

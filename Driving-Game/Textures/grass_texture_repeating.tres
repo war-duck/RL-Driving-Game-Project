@@ -1,0 +1,10 @@
+[gd_resource type="CanvasTexture" load_steps=2 format=3 uid="uid://hbecnbj8hfyb"]
+
+[ext_resource type="Texture2D" uid="uid://dlh40bmratnnd" path="res://Images/Background/edge_texture_earth_2.png" id="1_iwygy"]
+
+[resource]
+diffuse_texture = ExtResource("1_iwygy")
+normal_texture = ExtResource("1_iwygy")
+specular_texture = ExtResource("1_iwygy")
+texture_filter = 1
+texture_repeat = 2
