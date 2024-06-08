@@ -8,7 +8,7 @@
             "args": [
                 "build",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                // "/consoleloggerparameters:NoSummary"
             ],
             "group": {
                 "kind": "build",
@@ -16,8 +16,9 @@
             },
             "presentation": {
                 "reveal": "silent"
-            },
-            "problemMatcher": "$msCompile"
+            }
+            // ,
+            // "problemMatcher": "$msCompile"
         }
     ]
 }

@@ -6,9 +6,10 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "C:\\Program Files\\Godot_v4.2.1-stable_mono_win64\\Godot_v4.2.1-stable_mono_win64.exe",
             "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
+            "program": "/usr/bin/godot-mono",
+            // "program": "C:\\Program Files\\Godot_v4.2.1-stable_mono_win64\\Godot_v4.2.1-stable_mono_win64.exe", // windows
+
             "stopAtEntry": false,
             "args": [
                 "--path",

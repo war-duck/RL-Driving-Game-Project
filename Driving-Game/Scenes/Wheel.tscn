@@ -1,14 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://de2uc8a1fqmpo"]
+[gd_scene load_steps=4 format=3 uid="uid://de2uc8a1fqmpo"]
 
+[ext_resource type="Script" path="res://Code/Wheel.cs" id="1_3fpel"]
 [ext_resource type="Texture2D" uid="uid://c8pet4qkop4ft" path="res://Images/Car/Wheel.png" id="1_mke1e"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mvpif"]
-radius = 64.0078
+radius = 64.0
 
 [node name="Wheel" type="RigidBody2D" groups=["player", "wheel"]]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_mke1e")
+max_contacts_reported = 5
+contact_monitor = true
+script = ExtResource("1_3fpel")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_mvpif")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_mke1e")

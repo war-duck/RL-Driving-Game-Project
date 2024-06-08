@@ -5,26 +5,42 @@
 [ext_resource type="Texture2D" uid="uid://ceycw5p0qhqv3" path="res://Images/Car/Car.png" id="2_im8i0"]
 
 [node name="Player" type="RigidBody2D" groups=["carBody", "player"]]
+can_sleep = false
+max_contacts_reported = 5
+contact_monitor = true
 script = ExtResource("1_b0fti")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-224, -46, -220, 70, -188, 96, 201, 95, 214, 79, 215, -4, 6, -61, -201, -58)
-
-[node name="WheelHolderBack" type="PinJoint2D" parent="."]
-position = Vector2(-153, 102)
-node_a = NodePath("..")
-node_b = NodePath("Wheel")
-softness = 1.2
-
-[node name="Wheel" parent="WheelHolderBack" instance=ExtResource("1_mciyx")]
+polygon = PackedVector2Array(-222, -46, -222, 71, -213, 99, 186, 99, 206, 57, 204, -11, 121, -41, 10, -60, -201, -58)
 
 [node name="WheelHolderFront" type="PinJoint2D" parent="."]
-position = Vector2(110, 102)
+position = Vector2(110, 115)
 node_a = NodePath("..")
 node_b = NodePath("Wheel")
 softness = 1.2
 
 [node name="Wheel" parent="WheelHolderFront" instance=ExtResource("1_mciyx")]
+collision_layer = 2
+can_sleep = false
+
+[node name="WheelHolderBack" type="PinJoint2D" parent="."]
+position = Vector2(-153, 115)
+node_a = NodePath("..")
+node_b = NodePath("Wheel")
+softness = 1.2
+
+[node name="Wheel" parent="WheelHolderBack" instance=ExtResource("1_mciyx")]
+collision_layer = 2
+can_sleep = false
 
 [node name="Car" type="Sprite2D" parent="."]
 texture = ExtResource("2_im8i0")
+
+[node name="GroundDistance" type="RayCast2D" parent="." groups=["groundDist"]]
+target_position = Vector2(0, 30000)
+
+[node name="SlopeFront" type="RayCast2D" parent="." groups=["slopeRay"]]
+target_position = Vector2(30000, 30000)
+
+[node name="SlopeBack" type="RayCast2D" parent="." groups=["slopeRay"]]
+target_position = Vector2(27000, 30000)
