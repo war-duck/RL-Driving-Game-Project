@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://addons/rmsmartshape/vertex_properties.gd" id="3_qmld1"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/shapes/point.gd" id="4_v25v2"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/shapes/point_array.gd" id="5_adihd"]
-[ext_resource type="Resource" uid="uid://cg5v7gouhxejo" path="res://Levels/terrain_material.tres" id="12_bbrhe"]
+[ext_resource type="Resource" uid="uid://cg5v7gouhxejo" path="res://Textures/terrain_material.tres" id="12_bbrhe"]
 
 [sub_resource type="Resource" id="Resource_r4ywo"]
 script = ExtResource("3_qmld1")

@@ -5,7 +5,7 @@ public partial class Ray : Node2D
 {
     public RayCast2D groundDistRay;
     public RayCast2D[] slopeRays;
-
+    public bool shouldDraw = true;
     public override void _Ready()
     {
         var groundDistNodes = GetTree().GetNodesInGroup("groundDist");
@@ -47,11 +47,15 @@ public partial class Ray : Node2D
 
     public override void _Process(double delta)
     {
-        QueueRedraw();
+        // QueueRedraw();
     }
 
     public override void _Draw()
     {
+        if (!shouldDraw)
+        {
+            return;
+        }
         Vector2 offset = new Vector2(0, 50);
         if (groundDistRay != null)
         {

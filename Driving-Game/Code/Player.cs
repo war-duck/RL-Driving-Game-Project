@@ -5,7 +5,8 @@ using System.Linq;
 public partial class Player : RigidBody2D
 {
     public PlayerData playerData;
-    private Ray rays;
+    Ray rays;
+    Font font;
     Godot.Collections.Array<Node> wheels;
     InputType currentInput;
     bool inputIsSet;
@@ -17,14 +18,19 @@ public partial class Player : RigidBody2D
     float maxCarRotSpeed = 10;
     bool isColliding = false;
     bool hasDied = false;
+    bool dispPlayerParams;
 
     public override void _Ready()
     {
+        font = ResourceLoader.Load<FontFile>("res://Fonts/AgencyFB-Bold.ttf");
         rays = GetTree().GetNodesInGroup("ray").ElementAtOrDefault(0) as Ray;
         wheels = GetTree().GetNodesInGroup("wheel");
         carBody = GetTree().GetNodesInGroup("carBody").ElementAtOrDefault(0) as RigidBody2D;
         deathPolygon = GetTree().GetNodesInGroup("deathPolygon").ElementAtOrDefault(0) as CollisionPolygon2D;
         playerData = new PlayerData();
+
+        dispPlayerParams = true;
+        setDispParams();
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;
         
@@ -104,7 +110,7 @@ public partial class Player : RigidBody2D
         playerData.Rotation = (int)Rotation;
         playerData.Slope = rays.getSlope();
         playerData.DistToGround = (int)rays.getGroundDist();
-        playerData.AngularVelocity = (int)carBody.AngularVelocity;
+        playerData.AngularVelocity = carBody.AngularVelocity;
         playerData.IsTouchingGround = isAnythingColliding();
     }
 
@@ -121,5 +127,27 @@ public partial class Player : RigidBody2D
         GD.Print("Angular Velocity: " + playerData.AngularVelocity);
         GD.Print("Is Touching Ground: " + playerData.IsTouchingGround);
         GD.Print("Has Died: " + hasDied);
+    }
+    private void drawPlayerData()
+    {
+        rays.QueueRedraw();
+        this.QueueRedraw();
+    }
+    public override void _Draw()
+    {
+        if(!dispPlayerParams)
+            return;
+        Vector2 offset = new Vector2(0, -100);
+        if(hasDied)
+            DrawString(font, offset, "dead", modulate: new Color(1, 0.2f, 0.2f), fontSize: 100);
+        else
+            DrawString(font, offset, "not dead", modulate: new Color(0, 0.6f, 0), fontSize: 100);
+        DrawString(font, 2 * offset, "touching: " + playerData.IsTouchingGround, modulate: new Color(0.8f, 0.8f, 0.8f), fontSize: 100);
+        DrawString(font, 3 * offset, "V_ang: " + playerData.AngularVelocity.ToString("F3") , modulate: new Color(0.8f, 0.8f, 0.8f), fontSize: 100);
+
+    }
+    public void setDispParams()
+    {
+        rays.shouldDraw = dispPlayerParams;
     }
 }
