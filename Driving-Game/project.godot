@@ -32,6 +32,10 @@ version_control/autoload_on_startup=true
 
 enabled=PackedStringArray("res://addons/rmsmartshape/plugin.cfg")
 
+[gui]
+
+theme/custom_font="res://Fonts/AgencyFB-Bold.ttf"
+
 [importer_defaults]
 
 texture={

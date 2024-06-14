@@ -22,7 +22,7 @@ public partial class Ray : Node2D
         }
     }
     
-    public float getGroundDist()
+    public float GetGroundDist()
     {
         if (groundDistRay != null && groundDistRay.IsColliding())
         {
@@ -31,7 +31,7 @@ public partial class Ray : Node2D
         return 0;
     }
 
-    public int getSlope()
+    public int GetSlope()
     {
         if (!slopeRays[0].IsColliding() || !slopeRays[1].IsColliding())
         {
@@ -39,17 +39,6 @@ public partial class Ray : Node2D
         }
         return -(int)(slopeRays[1].GetCollisionPoint().AngleToPoint(slopeRays[0].GetCollisionPoint())*57.2958);
     }
-
-    public void rotate(float rotation)
-    {
-        this.Rotation = -rotation;
-    }
-
-    public override void _Process(double delta)
-    {
-        // QueueRedraw();
-    }
-
     public override void _Draw()
     {
         if (!shouldDraw)

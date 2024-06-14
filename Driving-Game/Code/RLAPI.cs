@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 
 public class RLAPI
 {
-    private Player player;
+    public Player player;
 
     public RLAPI(Player player)
     {
@@ -19,6 +19,10 @@ public class RLAPI
 
     public void ApplyModelInput(InputType input)
     {
-        player.setCurrentInput(input);
+        player.SetCurrentInput(input);
+    }
+    public void KillPlayer()
+    {
+        player.QueueFree();
     }
 }

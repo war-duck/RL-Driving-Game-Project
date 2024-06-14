@@ -43,7 +43,7 @@ texture = ExtResource("2_im8i0")
 
 [node name="Rays" parent="." groups=["ray"] instance=ExtResource("4_q1qc5")]
 
-[node name="DeathArea" type="Area2D" parent="."]
+[node name="DeathArea" type="Area2D" parent="." groups=["deathPolygon"]]
 collision_mask = 2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DeathArea"]
