@@ -11,10 +11,9 @@ public class RLAPI
     {
         this.player = player;
     }
-
     public PlayerData GetPlayerData()
     {
-        return player.playerData;   
+        return player.playerData;
     }
 
     public void ApplyModelInput(InputType input)

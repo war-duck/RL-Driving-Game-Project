@@ -7,8 +7,8 @@ public class PlayerData
     public double AngularVelocity { get; set; }
     public bool IsTouchingGround { get; set; }
     public bool HasDied { get; set; }
-    public override string ToString()
+    public string Print()
     {
-        return $" GlobalPositionX: {GlobalPositionX},\n Rotation: {Rotation},\n Slope: {Slope},\n DistToGround: {DistToGround},\n AngularVelocity: {AngularVelocity.ToString("F3")},\n IsTouchingGround: {IsTouchingGround},\n HasDied: {HasDied}";
+        return $" GlobalPositionX: {GlobalPositionX},\t Rotation: {Rotation},\t Slope: {Slope},\t DistToGround: {DistToGround},\t AngularVelocity: {AngularVelocity.ToString("F3")},\t IsTouchingGround: {IsTouchingGround},\t HasDied: {HasDied}";
     }
 }

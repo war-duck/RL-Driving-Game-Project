@@ -3,36 +3,31 @@ using System;
 
 public partial class Ray : Node2D
 {
-    public RayCast2D groundDistRay;
-    public RayCast2D[] slopeRays;
+    private RayCast2D groundDistRay;
+    private RayCast2D[] slopeRays;
     public bool shouldDraw = true;
     public override void _Ready()
     {
-        var groundDistNodes = GetTree().GetNodesInGroup("groundDist");
-        if (groundDistNodes.Count > 0)
-        {
-            groundDistRay = groundDistNodes[0] as RayCast2D;
-        }
-        Console.WriteLine( GetTreeStringPretty());
-        var slopeRayNodes = GetTree().GetNodesInGroup("slopeRay");
-        slopeRays = new RayCast2D[slopeRayNodes.Count];
-        for (int i = 0; i < slopeRayNodes.Count; i++)
-        {
-            slopeRays[i] = slopeRayNodes[i] as RayCast2D;
-        }
+        groundDistRay = GetNode<RayCast2D>("GroundDistRay");
+
+        slopeRays = new RayCast2D[2];
+        slopeRays[0] = GetNode<RayCast2D>("SlopeRayFront");
+        slopeRays[1] = GetNode<RayCast2D>("SlopeRayBack");
     }
     
     public float GetGroundDist()
     {
+        GlobalRotation = 0;
         if (groundDistRay != null && groundDistRay.IsColliding())
         {
-            return groundDistRay.GetCollisionPoint()[1];
+            return groundDistRay.GetCollisionPoint().Y;
         }
         return 0;
     }
 
     public int GetSlope()
     {
+        GlobalRotation = 0;
         if (!slopeRays[0].IsColliding() || !slopeRays[1].IsColliding())
         {
             return 0;

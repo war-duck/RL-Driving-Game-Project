@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Code/Player.cs" id="1_b0fti"]
 [ext_resource type="PackedScene" uid="uid://de2uc8a1fqmpo" path="res://Scenes/Wheel.tscn" id="1_mciyx"]
 [ext_resource type="Texture2D" uid="uid://ceycw5p0qhqv3" path="res://Images/Car/Car.png" id="2_im8i0"]
-[ext_resource type="PackedScene" uid="uid://cyosc0mo613a0" path="res://Scenes/Ray.tscn" id="4_q1qc5"]
+[ext_resource type="PackedScene" uid="uid://cyosc0mo613a0" path="res://Scenes/Ray.tscn" id="4_8wqbn"]
 
 [node name="Player" type="RigidBody2D" groups=["carBody", "player"]]
 collision_mask = 2
@@ -12,6 +12,8 @@ can_sleep = false
 max_contacts_reported = 5
 contact_monitor = true
 script = ExtResource("1_b0fti")
+
+[node name="Ray" parent="." instance=ExtResource("4_8wqbn")]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-224, -45, -224, 71, -213, 99, 177, 100, 198, 81, 206, 57, 211, -11, 189, -23, 161, -16, -174, -40, -184, -61, -203, -61)
@@ -41,10 +43,8 @@ can_sleep = false
 [node name="Car" type="Sprite2D" parent="."]
 texture = ExtResource("2_im8i0")
 
-[node name="Rays" parent="." groups=["ray"] instance=ExtResource("4_q1qc5")]
-
 [node name="DeathArea" type="Area2D" parent="." groups=["deathPolygon"]]
 collision_mask = 2
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DeathArea"]
+[node name="DeathPolygon" type="CollisionPolygon2D" parent="DeathArea"]
 polygon = PackedVector2Array(-174, -40, -184, -61, -128, -63, 6, -61, 50, -59, 91, -52, 139, -41, 189, -23, 161, -16)

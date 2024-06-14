@@ -5,12 +5,11 @@ using System.Linq;
 public partial class Player : RigidBody2D
 {
     public PlayerData playerData;
-    Ray rays;
+    public Ray rays;
     Font font;
-    Godot.Collections.Array<Node> wheels;
+    Wheel[] wheels;
     InputType currentInput;
     bool inputIsSet;
-    RigidBody2D carBody;
     CollisionPolygon2D deathPolygon;
     float wheelTorque = 5000;
     float carTorque = 6000;
@@ -22,10 +21,11 @@ public partial class Player : RigidBody2D
 
     public override void _Ready()
     {
-        rays = GetNode<Ray>("Rays");
-        wheels = GetTree().GetNodesInGroup("wheel");
-        carBody = GetTree().GetNodesInGroup("carBody").ElementAtOrDefault(0) as RigidBody2D;
-        deathPolygon = GetTree().GetNodesInGroup("deathPolygon").ElementAtOrDefault(0) as CollisionPolygon2D;
+        rays = GetNode<Ray>("Ray");
+        wheels = new Wheel[2];
+        wheels[0] = GetNode<Wheel>("WheelHolderFront/Wheel");
+        wheels[1] = GetNode<Wheel>("WheelHolderBack/Wheel");
+        deathPolygon = GetNode<CollisionPolygon2D>("DeathArea/DeathPolygon");
         playerData = new PlayerData();
 
         dispPlayerParams = true;
@@ -40,7 +40,7 @@ public partial class Player : RigidBody2D
     private void OnDeathAreaBodyEntered(Node body) { hasDied = true; }
     private bool IsAnythingColliding()
     {
-        foreach (Wheel wheel in wheels.Cast<Wheel>())
+        foreach (Wheel wheel in wheels)
             if (wheel.isColliding)
                 return true;
         return isColliding;
@@ -48,7 +48,6 @@ public partial class Player : RigidBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        rays.Rotation = -Rotation;
         CalcPlayerData();
         DrawPlayerData();
         GetInput();
@@ -76,30 +75,25 @@ public partial class Player : RigidBody2D
 
     private void ApplyInput(double delta)
     {
-        if (currentInput == InputType.Accelerate && carBody.AngularVelocity > -maxCarRotSpeed)
-        {
-            carBody.ApplyTorqueImpulse(-carTorque * (float)delta * 60);
-        }
-        if (currentInput == InputType.Brake && carBody.AngularVelocity < maxCarRotSpeed)
-        {
-            carBody.ApplyTorqueImpulse(carTorque * (float)delta * 60);
-        }
-
         if (currentInput == InputType.Accelerate)
         {
-            foreach (RigidBody2D wheel in wheels.Cast<RigidBody2D>())
+            foreach (RigidBody2D wheel in wheels)
             {
                 if (wheel.AngularVelocity < maxWheelRotSpeed)
                     wheel.ApplyTorqueImpulse(wheelTorque * (float)delta * 60);
             }
+            if (this.AngularVelocity > -maxCarRotSpeed)
+                this.ApplyTorqueImpulse(-carTorque * (float)delta * 60);
         }
         if (currentInput == InputType.Brake)
         {
-            foreach (RigidBody2D wheel in wheels.Cast<RigidBody2D>())
+            foreach (RigidBody2D wheel in wheels)
             {
                 if (wheel.AngularVelocity > -maxWheelRotSpeed)
                     wheel.ApplyTorqueImpulse(-wheelTorque * (float)delta * 60);
             }
+            if (this.AngularVelocity < maxCarRotSpeed)
+                this.ApplyTorqueImpulse(carTorque * (float)delta * 60);
         }
     }
 
@@ -109,7 +103,7 @@ public partial class Player : RigidBody2D
         playerData.Rotation = (int)Rotation;
         playerData.Slope = rays.GetSlope();
         playerData.DistToGround = (int)rays.GetGroundDist();
-        playerData.AngularVelocity = carBody.AngularVelocity;
+        playerData.AngularVelocity = this.AngularVelocity;
         playerData.IsTouchingGround = IsAnythingColliding();
         playerData.HasDied = hasDied;
     }
@@ -135,6 +129,7 @@ public partial class Player : RigidBody2D
             DrawString(font, offset, "not dead", modulate: new Color(0, 0.6f, 0), fontSize: 100);
         DrawString(font, 2 * offset, "touching: " + playerData.IsTouchingGround, modulate: new Color(0.5f, 0.5f, 0.5f), fontSize: 100);
         DrawString(font, 3 * offset, "V_ang: " + playerData.AngularVelocity.ToString("F3") , modulate: new Color(0.5f, 0.5f, 0.5f), fontSize: 100);
+
     }
     public void SetDispParams()
     {
