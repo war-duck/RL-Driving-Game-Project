@@ -1,0 +1,6 @@
+*.dll
+*.so
+*.dylib
+*.tar.7z
+
+DrivingGame-UnityPort/Library/*
