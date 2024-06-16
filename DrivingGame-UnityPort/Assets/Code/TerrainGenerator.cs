@@ -7,6 +7,7 @@ using UnityEngine.U2D;
 public class TerrainGenerator : MonoBehaviour
 {
     public SpriteShapeController _spriteShapeController;
+    [SerializeField] GameObject _terrain;
     [SerializeField, Range(3f, 300f)] public int _levelLength = 50;
     [SerializeField, Range(1f, 50f)] public float _xMultiplier = 2f;
     [SerializeField, Range(1f, 50f)] public float _yMultiplier = 2f;
@@ -43,15 +44,21 @@ public class TerrainGenerator : MonoBehaviour
             _lastPos = transform.position + new Vector3(i * _xMultiplier, height);
             _spriteShapeController.spline.InsertPointAt(i, _lastPos);
 
-            if (i != 0 && i != _levelLength - 1)
-            {
-                _spriteShapeController.spline.SetTangentMode(i, ShapeTangentMode.Continuous);
-                _spriteShapeController.spline.SetLeftTangent(i, Vector3.left * _xMultiplier * _curveSmoothness);
-                _spriteShapeController.spline.SetRightTangent(i, Vector3.right * _xMultiplier * _curveSmoothness);
-            }
+
+            _spriteShapeController.spline.SetTangentMode(i, ShapeTangentMode.Continuous);
+            _spriteShapeController.spline.SetLeftTangent(i, Vector3.left * _xMultiplier * _curveSmoothness);
+            _spriteShapeController.spline.SetRightTangent(i, Vector3.right * _xMultiplier * _curveSmoothness);
+
         }
 
-        _spriteShapeController.spline.InsertPointAt(_levelLength, new Vector3(_lastPos.x, transform.position.y - _bottom));
-        _spriteShapeController.spline.InsertPointAt(_levelLength + 1, new Vector3(transform.position.x, transform.position.y - _bottom));
+        _spriteShapeController.spline.InsertPointAt(_levelLength, new Vector3(_lastPos.x, _lastPos.y + 30 * _bottom));
+        _spriteShapeController.spline.InsertPointAt(_levelLength + 1, new Vector3(_lastPos.x + 10, _lastPos.y + 30 * _bottom));
+        _spriteShapeController.spline.InsertPointAt(_levelLength + 2, new Vector3(_lastPos.x + 10, transform.position.y - _bottom));
+        _spriteShapeController.spline.InsertPointAt(_levelLength + 3, new Vector3(transform.position.x - 10, transform.position.y - _bottom));
+        _spriteShapeController.spline.InsertPointAt(_levelLength + 4, new Vector3(transform.position.x - 10, transform.position.y + 30 * _bottom));
+        _spriteShapeController.spline.InsertPointAt(_levelLength + 5, new Vector3(transform.position.x, transform.position.y + 30 * _bottom));
+    
+        // _terrain.transform.position = _spriteShapeController.spline.GetPosition(5) - new Vector3(0, 5);
+        _terrain.transform.position = new Vector3(-5,-5);
     }
 }

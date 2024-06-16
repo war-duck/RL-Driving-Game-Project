@@ -7,6 +7,7 @@ public class GameEnv : MonoBehaviour
     public static GameEnv instance;
     [SerializeField] private Rigidbody2D _player;
     [SerializeField] public Collider2D terrainCollider;
+    [SerializeField] private Driver driver;
     public PlayerDataGetter playerDataGetter;
     private void Awake()
     {
@@ -21,8 +22,8 @@ public class GameEnv : MonoBehaviour
     {
         playerDataGetter.HasDied = true;
     }
-    public void RestartGame()
+    public static void RestartGame()
     {
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        instance.driver.isReturning = true;
     }
 }
