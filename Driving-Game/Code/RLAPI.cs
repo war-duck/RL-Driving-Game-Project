@@ -1,7 +1,4 @@
 using Godot;
-using System;
-using System.Linq;
-using System.Security.Cryptography;
 
 public class RLAPI
 {
@@ -10,10 +7,6 @@ public class RLAPI
     public RLAPI(Player player)
     {
         this.player = player;
-    }
-    public PlayerData GetPlayerData()
-    {
-        return player.playerData;
     }
 
     public void ApplyModelInput(InputType input)
@@ -24,4 +17,22 @@ public class RLAPI
     {
         player.QueueFree();
     }
+    // public int GetActionFromModel(int[] state)
+    // {
+    //     using (Py.GIL())
+    //     {
+    //         dynamic rlModel = Py.Import("rl_model");
+    //         dynamic action = rlModel.predict_action(state);
+    //         return (int)action;
+    //     }
+    // }
+
+    // public void TrainModel(int[] state, int action, float reward, int[] nextState, bool done)
+    // {
+    //     using (Py.GIL())
+    //     {
+    //         dynamic rlModel = Py.Import("rl_model");
+    //         rlModel.train_model(state, action, reward, nextState, done);
+    //     }
+    // }
 }

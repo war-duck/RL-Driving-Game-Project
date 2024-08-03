@@ -1,27 +1,27 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 
 public partial class level_1 : Node2D
 {
 	private PackedScene playerScene = GD.Load<PackedScene>("res://Scenes/Player.tscn");
     private PackedScene rayScene = GD.Load<PackedScene>("res://Scenes/Ray.tscn");
-    private List<RLAPI> players = new List<RLAPI>();
+    public List<RLAPI> players = new List<RLAPI>();
 	private Camera2D camera;
     public override void _Ready()
     {
 		camera = GetNode<Camera2D>("Camera");
-        SpawnPlayers(5);
+        SpawnPlayers(1);
     }
 
     public override void _Process(double delta)
     {
+        camera.GlobalPosition = GetBestPlayerPosition();
         foreach (var rlapi in players)
         {
-            InputType randomInput = (InputType)(GD.Randi() % 3);
-            rlapi.ApplyModelInput(randomInput);
+            // InputType randomInput = (InputType)(GD.Randi() % 3);
+            InputType input = getPlayerInput();
+            rlapi.ApplyModelInput(input);
         }
-        camera.GlobalPosition = GetBestPlayerPosition();
     }
     public override void _ExitTree()
     {
@@ -31,6 +31,7 @@ public partial class level_1 : Node2D
 		}
         base._ExitTree();
     }
+
     public void SpawnPlayers(int numberOfPlayers)
     {
         for (int i = 0; i < numberOfPlayers; i++)
@@ -52,4 +53,19 @@ public partial class level_1 : Node2D
 		}
 		return bestDist;
 	}
+    private InputType getPlayerInput()
+    {
+        if (Input.IsActionPressed("ui_right"))
+        {
+            return InputType.Accelerate;
+        }
+        if (Input.IsActionPressed("ui_left"))
+        {
+            return InputType.Brake;
+        }
+        else
+        {
+            return InputType.None;
+        }
+    }
 }

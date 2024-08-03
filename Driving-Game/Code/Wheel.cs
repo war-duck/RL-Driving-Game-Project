@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Wheel : RigidBody2D
 {
@@ -21,8 +20,4 @@ public partial class Wheel : RigidBody2D
         isColliding = false;
 
     }
-
-	public override void _Process(double delta)
-	{
-	}
 }

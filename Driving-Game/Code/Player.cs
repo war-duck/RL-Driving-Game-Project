@@ -1,6 +1,4 @@
 using Godot;
-using System;
-using System.Linq;
 
 public partial class Player : RigidBody2D
 {
@@ -9,7 +7,6 @@ public partial class Player : RigidBody2D
     Font font;
     Wheel[] wheels;
     InputType currentInput;
-    bool inputIsSet;
     CollisionPolygon2D deathPolygon;
     float wheelTorque = 5000;
     float carTorque = 6000;
@@ -52,13 +49,14 @@ public partial class Player : RigidBody2D
         DrawPlayerData();
         GetInput();
         ApplyInput(delta);
-        inputIsSet = false;
     }
 
     private void GetInput()
     {
-        if (inputIsSet)
+        if (!Input.IsActionPressed("ui_accept"))
+        {
             return;
+        }
         if (Input.IsActionPressed("ui_right"))
         {
             currentInput = InputType.Accelerate;
@@ -103,7 +101,7 @@ public partial class Player : RigidBody2D
         playerData.Rotation = (int)Rotation;
         playerData.Slope = rays.GetSlope();
         playerData.DistToGround = (int)rays.GetGroundDist();
-        playerData.AngularVelocity = this.AngularVelocity;
+        playerData.AngularVelocity = (int)(this.AngularVelocity*100);
         playerData.IsTouchingGround = IsAnythingColliding();
         playerData.HasDied = hasDied;
     }
@@ -111,7 +109,6 @@ public partial class Player : RigidBody2D
     public void SetCurrentInput(InputType input)
     {
         currentInput = input;
-        inputIsSet = true;
     }
     private void DrawPlayerData()
     {
@@ -129,7 +126,6 @@ public partial class Player : RigidBody2D
             DrawString(font, offset, "not dead", modulate: new Color(0, 0.6f, 0), fontSize: 100);
         DrawString(font, 2 * offset, "touching: " + playerData.IsTouchingGround, modulate: new Color(0.5f, 0.5f, 0.5f), fontSize: 100);
         DrawString(font, 3 * offset, "V_ang: " + playerData.AngularVelocity.ToString("F3") , modulate: new Color(0.5f, 0.5f, 0.5f), fontSize: 100);
-
     }
     public void SetDispParams()
     {
