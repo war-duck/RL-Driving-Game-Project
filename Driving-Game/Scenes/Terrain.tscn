@@ -1,27 +1,37 @@
-[gd_scene load_steps=5 format=3 uid="uid://d3ajyqswqiers"]
+[gd_scene load_steps=7 format=3 uid="uid://d3ajyqswqiers"]
 
 [ext_resource type="Script" path="res://Code/Terrain.cs" id="1_k7iwt"]
 [ext_resource type="Texture2D" uid="uid://cxdu4raxceidn" path="res://Images/Terrain/DirtBG.png" id="2_mj5bk"]
 [ext_resource type="Texture2D" uid="uid://cur0llstl723n" path="res://Images/Terrain/Grass.png" id="3_ia8ju"]
+[ext_resource type="PackedScene" uid="uid://cw1ir4ywxhdxb" path="res://Scenes/FinishFlag.tscn" id="4_4gorx"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_b1kio"]
 
-[node name="Terrain" type="StaticBody2D" node_paths=PackedStringArray("terrainPoly", "terrainLine", "collisionBody")]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vn6tx"]
+friction = 3.0
+
+[node name="Terrain" type="StaticBody2D" node_paths=PackedStringArray("terrainPoly", "terrainLine", "collisionBody", "finishFlag")]
 collision_layer = 2
 script = ExtResource("1_k7iwt")
 terrainPoly = NodePath("TerrainPolygon")
 terrainLine = NodePath("TerrainLine")
 collisionBody = NodePath("StaticBody2D")
+finishFlag = NodePath("FinishFlag")
 
 [node name="TerrainPolygon" type="Polygon2D" parent="."]
 material = SubResource("CanvasItemMaterial_b1kio")
 texture = ExtResource("2_mj5bk")
-polygon = PackedVector2Array(-76, -7, 6, 104, 106, 20, 112, -53)
+polygon = PackedVector2Array(-200, -100, 200, -100, 200, 100, -200, 100)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 2
+physics_material_override = SubResource("PhysicsMaterial_vn6tx")
 
 [node name="TerrainLine" type="Line2D" parent="."]
+points = PackedVector2Array(-200, -100, 200, -100)
 width = 100.0
 texture = ExtResource("3_ia8ju")
 texture_mode = 1
+
+[node name="FinishFlag" parent="." instance=ExtResource("4_4gorx")]
+frame_progress = 0.0

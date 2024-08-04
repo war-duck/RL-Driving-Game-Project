@@ -8,8 +8,8 @@ public partial class Player : RigidBody2D
     Wheel[] wheels;
     InputType currentInput;
     CollisionPolygon2D deathPolygon;
-    float wheelTorque = 5000;
-    float carTorque = 6000;
+    float wheelTorque = 3000;
+    float carTorque = 4500;
     float maxWheelRotSpeed = 60;
     float maxCarRotSpeed = 10;
     bool isColliding = false;

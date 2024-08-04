@@ -7,8 +7,9 @@
 
 [node name="Player" type="RigidBody2D" groups=["carBody", "player"]]
 collision_mask = 2
-gravity_scale = 1.5
+mass = 3.0
 can_sleep = false
+continuous_cd = 2
 max_contacts_reported = 5
 contact_monitor = true
 script = ExtResource("1_b0fti")
@@ -28,6 +29,7 @@ softness = 1.2
 collision_layer = 5
 collision_mask = 2
 can_sleep = false
+continuous_cd = 2
 
 [node name="WheelHolderBack" type="PinJoint2D" parent="."]
 position = Vector2(-153, 115)
@@ -39,6 +41,7 @@ softness = 1.2
 collision_layer = 5
 collision_mask = 2
 can_sleep = false
+continuous_cd = 2
 
 [node name="Car" type="Sprite2D" parent="."]
 texture = ExtResource("2_im8i0")

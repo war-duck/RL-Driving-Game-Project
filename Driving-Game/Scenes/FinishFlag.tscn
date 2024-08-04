@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://cw1ir4ywxhdxb"]
+
+[ext_resource type="Texture2D" uid="uid://h1ilykdi44wb" path="res://Images/Other/Flag.png" id="1_orhlu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_thpgw"]
+atlas = ExtResource("1_orhlu")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bw4i4"]
+atlas = ExtResource("1_orhlu")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r3grs"]
+atlas = ExtResource("1_orhlu")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2wqas"]
+atlas = ExtResource("1_orhlu")
+region = Rect2(180, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cd8qd"]
+atlas = ExtResource("1_orhlu")
+region = Rect2(240, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tixna"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_thpgw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bw4i4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r3grs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2wqas")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cd8qd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="FinishFlag" type="AnimatedSprite2D"]
+position = Vector2(108, -140)
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_tixna")
+autoplay = "default"
+frame_progress = 0.388814
