@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b1pujpke4x8th"]
 
-[ext_resource type="Script" path="res://Code/Player.cs" id="1_b0fti"]
+[ext_resource type="Script" path="res://Code/Player/Player.cs" id="1_b0fti"]
 [ext_resource type="PackedScene" uid="uid://de2uc8a1fqmpo" path="res://Scenes/Wheel.tscn" id="1_mciyx"]
 [ext_resource type="Texture2D" uid="uid://ceycw5p0qhqv3" path="res://Images/Car/Car.png" id="2_im8i0"]
 [ext_resource type="PackedScene" uid="uid://cyosc0mo613a0" path="res://Scenes/Ray.tscn" id="4_8wqbn"]

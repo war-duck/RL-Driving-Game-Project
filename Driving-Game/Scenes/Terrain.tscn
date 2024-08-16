@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://d3ajyqswqiers"]
 
-[ext_resource type="Script" path="res://Code/Terrain.cs" id="1_k7iwt"]
+[ext_resource type="Script" path="res://Code/Environment/Terrain.cs" id="1_k7iwt"]
 [ext_resource type="Texture2D" uid="uid://cxdu4raxceidn" path="res://Images/Terrain/DirtBG.png" id="2_mj5bk"]
 [ext_resource type="Texture2D" uid="uid://cur0llstl723n" path="res://Images/Terrain/Grass.png" id="3_ia8ju"]
 [ext_resource type="PackedScene" uid="uid://cw1ir4ywxhdxb" path="res://Scenes/FinishFlag.tscn" id="4_4gorx"]

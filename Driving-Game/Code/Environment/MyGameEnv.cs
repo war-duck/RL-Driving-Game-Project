@@ -5,8 +5,8 @@ public class MyGameEnv
     public int stateSize = 5;
     public int actionSize = 3;
     public int playerNum = 1;
-    level_1 level;
-    public MyGameEnv(level_1 level)
+    Level level;
+    public MyGameEnv(Level level)
     {
         this.level = level;
         this.level.SpawnPlayers(playerNum);

@@ -1,14 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://xgujj7w3lvjq"]
 
-[ext_resource type="Script" path="res://Code/level_1.cs" id="1_sha4s"]
-[ext_resource type="PackedScene" uid="uid://d3ajyqswqiers" path="res://Scenes/Terrain.tscn" id="2_pxhbq"]
+[ext_resource type="Script" path="res://Code/Environment/Level.cs" id="1_g5x78"]
+[ext_resource type="PackedScene" uid="uid://d3ajyqswqiers" path="res://Scenes/Terrain.tscn" id="2_c0jo6"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ntfxq"]
 
-[node name="Level1" type="Node2D"]
-script = ExtResource("1_sha4s")
+[node name="Level" type="Node2D"]
+script = ExtResource("1_g5x78")
 
-[node name="Terrain" parent="." instance=ExtResource("2_pxhbq")]
+[node name="Terrain" parent="." instance=ExtResource("2_c0jo6")]
 position = Vector2(-500, 500)
 physics_material_override = SubResource("PhysicsMaterial_ntfxq")
 

@@ -1,7 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 
-public partial class level_1 : Node2D
+public partial class Level : Node2D
 {
 	private PackedScene playerScene = GD.Load<PackedScene>("res://Scenes/Player.tscn");
     private PackedScene rayScene = GD.Load<PackedScene>("res://Scenes/Ray.tscn");
