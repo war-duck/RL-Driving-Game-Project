@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://b1pujpke4x8th"]
+[gd_scene load_steps=6 format=3 uid="uid://b1pujpke4x8th"]
 
 [ext_resource type="Script" path="res://Code/Player/Player.cs" id="1_b0fti"]
 [ext_resource type="PackedScene" uid="uid://de2uc8a1fqmpo" path="res://Scenes/Wheel.tscn" id="1_mciyx"]
 [ext_resource type="Texture2D" uid="uid://ceycw5p0qhqv3" path="res://Images/Car/Car.png" id="2_im8i0"]
 [ext_resource type="PackedScene" uid="uid://cyosc0mo613a0" path="res://Scenes/Ray.tscn" id="4_8wqbn"]
+[ext_resource type="PackedScene" uid="uid://clmxt0po78rry" path="res://Scenes/FuelBar.tscn" id="5_5pqcb"]
 
 [node name="Player" type="RigidBody2D" groups=["carBody", "player"]]
 collision_mask = 2
@@ -51,3 +52,7 @@ collision_mask = 2
 
 [node name="DeathPolygon" type="CollisionPolygon2D" parent="DeathArea"]
 polygon = PackedVector2Array(-174, -40, -184, -61, -128, -63, 6, -61, 50, -59, 91, -52, 139, -41, 189, -23, 161, -16)
+
+[node name="FuelBar" parent="." instance=ExtResource("5_5pqcb")]
+position = Vector2(-43, 14)
+scale = Vector2(1.24, 1.24)

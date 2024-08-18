@@ -4,6 +4,7 @@ public partial class Player : RigidBody2D
 {
     public PlayerData playerData;
     public Ray rays;
+    ProgressBar fuelBar;
     Font font;
     Wheel[] wheels;
     InputType currentInput;
@@ -15,6 +16,10 @@ public partial class Player : RigidBody2D
     bool isColliding = false;
     bool hasDied = false;
     bool dispPlayerParams;
+    float fuelLevel = 100;
+    float fuelBurnRate = 0.1f;
+    [Signal]
+    public delegate void GasCanCollectedEventHandler();
 
     public override void _Ready()
     {
@@ -23,13 +28,14 @@ public partial class Player : RigidBody2D
         wheels[0] = GetNode<Wheel>("WheelHolderFront/Wheel");
         wheels[1] = GetNode<Wheel>("WheelHolderBack/Wheel");
         deathPolygon = GetNode<CollisionPolygon2D>("DeathArea/DeathPolygon");
+        fuelBar = GetNode<ProgressBar>("FuelBar/ProgressBar");
         playerData = new PlayerData();
-
         dispPlayerParams = true;
         SetDispParams();
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;
         GetNode<Area2D>("DeathArea").BodyEntered += OnDeathAreaBodyEntered;
+        GasCanCollected += () => { fuelLevel = 100f; };
     }
 
     private void OnBodyEntered(Node body) { isColliding = true; }
@@ -45,6 +51,7 @@ public partial class Player : RigidBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+        HandleFuel();
         CalcPlayerData();
         DrawPlayerData();
         GetInput();
@@ -126,10 +133,23 @@ public partial class Player : RigidBody2D
             DrawString(font, offset, "not dead", modulate: new Color(0, 0.6f, 0), fontSize: 100);
         DrawString(font, 2 * offset, "touching: " + playerData.IsTouchingGround, modulate: new Color(0.5f, 0.5f, 0.5f), fontSize: 100);
         DrawString(font, 3 * offset, "V_ang: " + playerData.AngularVelocity.ToString("F3") , modulate: new Color(0.5f, 0.5f, 0.5f), fontSize: 100);
+        DrawString(font, 4 * offset, "FuelLevel: " + fuelLevel.ToString("F1") , modulate: new Color(0.5f, 0.5f, 0.5f), fontSize: 100);
     }
     public void SetDispParams()
     {
         rays.shouldDraw = dispPlayerParams;
         font = ResourceLoader.Load<FontFile>("res://Fonts/AgencyFB-Bold.ttf");
+    }
+    private void HandleFuel()
+    {
+        if (fuelLevel <= 0)
+        {
+            hasDied = true;
+        }
+        else
+        {
+            fuelLevel -= fuelBurnRate;
+            fuelBar.Value = fuelLevel;
+        }
     }
 }
