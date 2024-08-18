@@ -9,6 +9,7 @@ public partial class GasCan : Area2D
     public override void _Ready()
     {
         BodyEntered += OnBodyEntered;
+        animationPlayer.AnimationFinished += (animName) => QueueFree();
     }
 
     private void OnBodyEntered(object body)
@@ -16,7 +17,6 @@ public partial class GasCan : Area2D
         if (body is Player player)
         {
             animationPlayer.Play("DespawnGasCan");
-            QueueFree();
             player.EmitSignal("GasCanCollected");
         }
     }

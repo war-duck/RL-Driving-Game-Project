@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -18,6 +19,7 @@ public partial class Terrain : StaticBody2D
     [Export] Line2D terrainLine;
     [Export] StaticBody2D collisionBody;
     [Export] AnimatedSprite2D finishFlag;
+    PackedScene gasCanScene = GD.Load<PackedScene>("res://Scenes/GasCan.tscn");
     public override void _Ready()
     {
         Vector2[] vertices;
@@ -39,6 +41,7 @@ public partial class Terrain : StaticBody2D
             };
             vertices.Add(point);
         }
+        AddGasCans(vertices.ToArray());
         vertices.Add(vertices.Last() + new Vector2(200, 0));
         Vector2 enclosingPoint = new Vector2(vertices.Last().X, -distToGround);
         vertices.Add(enclosingPoint);
@@ -65,5 +68,19 @@ public partial class Terrain : StaticBody2D
         noise.NoiseType = FastNoiseLite.NoiseTypeEnum.Perlin;
         noise.FractalGain = layerGain;
         noise.Frequency = noiseFrequency;
+    }
+    private void AddGasCans(Vector2[] vertices)
+    {
+        int distBetweenGasCans = (int)(100 * Math.Log2(difficulty + 2));
+        int nodeNum = distBetweenGasCans;
+        while (nodeNum < vertices.Length)
+        {
+            Vector2 pos = vertices[nodeNum];
+            GasCan gasCan = gasCanScene.Instantiate<GasCan>();
+            gasCan.Position = pos + new Vector2(0, -200);
+            AddChild(gasCan);
+            nodeNum += (int)(distBetweenGasCans + Math.Log10(nodeNum)); // wraz z dystansem i w zależności od trudności
+                                                                    // kanistry będą się pojawiać rzadziej
+        }
     }
 }
