@@ -1,14 +1,18 @@
 using System.Linq;
 public class Buffer
 {
-    double[,] observationBuffer;
+    double[][] observationBuffer;
     int[] actionBuffer;
     double[] advantageBuffer, rewardBuffer, returnBuffer, valueBuffer, logProbBuffer;
     double discount, lambda;
-    int counter, bufferSize; // start - start obecnej trajektorii w buforze, counter - ilość elementów w buforze, bufferSize - maksymalna ilość elementów w buforze
+    int counter, bufferSize; // counter - ilość elementów w buforze, bufferSize - maksymalna ilość elementów w buforze
     public Buffer(int inputSize, int bufferSize, double discount, double lambda)
     {
-        observationBuffer = new double[bufferSize,inputSize];
+        observationBuffer = new double[bufferSize][];
+        for (int i = 0; i < bufferSize; i++)
+        {
+            observationBuffer[i] = new double[inputSize];
+        }
         actionBuffer = new int[bufferSize];
         advantageBuffer = new double[bufferSize];
         rewardBuffer = new double[bufferSize];
@@ -28,7 +32,7 @@ public class Buffer
         }
         for (int i = 0; i < observation.Length; i++)
         {
-            observationBuffer[counter, i] = observation[i];
+            observationBuffer[counter][i] = observation[i];
         }
         actionBuffer[counter] = action;
         rewardBuffer[counter] = reward;
@@ -60,7 +64,7 @@ public class Buffer
             returnBuffer[i] = cumsum[i];
         }
     }
-    public (double[,], int[], double[], double[], double[]) GetBuffer()
+    public (double[][], int[], double[], double[], double[]) GetBuffer()
     {
         counter = 0;
         NormalizeAdvantages();
