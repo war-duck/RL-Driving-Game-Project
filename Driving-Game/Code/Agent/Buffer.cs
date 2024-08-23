@@ -1,28 +1,26 @@
 using System.Linq;
-
 public class Buffer
 {
-    float[,] observationBuffer;
+    double[,] observationBuffer;
     int[] actionBuffer;
-    float[] advantageBuffer, rewardBuffer, returnBuffer, valueBuffer, logProbBuffer;
-    float discount, lambda;
-    int start, counter, bufferSize; // start - start obecnej trajektorii w buforze, counter - ilość elementów w buforze, bufferSize - maksymalna ilość elementów w buforze
-    public Buffer(int inputSize, int bufferSize, float discount, float lambda)
+    double[] advantageBuffer, rewardBuffer, returnBuffer, valueBuffer, logProbBuffer;
+    double discount, lambda;
+    int counter, bufferSize; // start - start obecnej trajektorii w buforze, counter - ilość elementów w buforze, bufferSize - maksymalna ilość elementów w buforze
+    public Buffer(int inputSize, int bufferSize, double discount, double lambda)
     {
-        observationBuffer = new float[bufferSize,inputSize];
+        observationBuffer = new double[bufferSize,inputSize];
         actionBuffer = new int[bufferSize];
-        advantageBuffer = new float[bufferSize];
-        rewardBuffer = new float[bufferSize];
-        returnBuffer = new float[bufferSize];
-        valueBuffer = new float[bufferSize];
-        logProbBuffer = new float[bufferSize];
+        advantageBuffer = new double[bufferSize];
+        rewardBuffer = new double[bufferSize];
+        returnBuffer = new double[bufferSize];
+        valueBuffer = new double[bufferSize];
+        logProbBuffer = new double[bufferSize];
         this.discount = discount;
         this.lambda = lambda;
-        this.start = 0;
         this.counter = 0;
         this.bufferSize = bufferSize;
     }
-    public void Add(float[] observation, int action, float reward, float value, float logProb)
+    public void Add(double[] observation, int action, double reward, double value, double logProb)
     {
         if (counter >= bufferSize)
         {
@@ -38,42 +36,41 @@ public class Buffer
         logProbBuffer[counter] = logProb;
         ++counter;
     }
-    public void Finish(float lastValue = 0) // 0 jeżeli koniec epizodu (śmierć); inaczej V(S_t)
+    public void Finish(double lastValue = 0) // 0 jeżeli koniec epizodu (śmierć); inaczej V(S_t)
     {
         // przycinamy bufor, dodajemy ostatnią wartość
-        float[] rewards = rewardBuffer.Skip(start).Take(counter - start).Append(lastValue).ToArray();
-        float[] values  = valueBuffer.Skip(start).Take(counter - start).Append(lastValue).ToArray();
-        float[] deltas = new float[counter];
-        for (int i = start; i < counter; i++)
+        double[] rewards = rewardBuffer.Take(counter).Append(lastValue).ToArray();
+        double[] values  = valueBuffer.Take(counter).Append(lastValue).ToArray();
+        double[] deltas = new double[counter];
+        for (int i = 0; i < counter; i++)
         {
             deltas[i] = rewards[i] + discount * values[i + 1] - values[i];
         }
 
         // liczymy advantage
-        float[] cumsum = PPOAgent.CalcDiscountedCumSums(deltas, discount * lambda);
-        for (int i = start; i < counter; ++i)
+        double[] cumsum = PPOAgent.CalcDiscountedCumSums(deltas, discount * lambda);
+        for (int i = 0; i < counter; ++i)
         {
-            advantageBuffer[i] = cumsum[i - start];
+            advantageBuffer[i] = cumsum[i];
         }
         // liczymy rewards-to-go
         cumsum = PPOAgent.CalcDiscountedCumSums(rewards.SkipLast(1).ToArray(), discount);
-        for (int i = start; i < counter; ++i)
+        for (int i = 0; i < counter; ++i)
         {
-            returnBuffer[i] = cumsum[i - start];
+            returnBuffer[i] = cumsum[i];
         }
     }
-    public (float[,], int[], float[], float[], float[]) GetBuffer()
+    public (double[,], int[], double[], double[], double[]) GetBuffer()
     {
-        counter = start = 0;
+        counter = 0;
         NormalizeAdvantages();
         return (observationBuffer, actionBuffer, advantageBuffer, returnBuffer, logProbBuffer);
-
 
     }
     private void NormalizeAdvantages()
     {
-        float advantageMean = advantageBuffer.Average();
-        float advantageStd = advantageBuffer.Select(x => (x - advantageMean) * (x - advantageMean)).Sum() / (advantageBuffer.Length - 1);
+        double advantageMean = advantageBuffer.Average();
+        double advantageStd = advantageBuffer.Select(x => (x - advantageMean) * (x - advantageMean)).Sum() / (advantageBuffer.Length - 1);
         advantageBuffer = advantageBuffer.Select(x => (x - advantageMean) / advantageStd).ToArray();
     }
 }
