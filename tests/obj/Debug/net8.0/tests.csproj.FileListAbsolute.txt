@@ -1,0 +1,6 @@
+/home/warduck/proib/ProIn/RL-Driving-Game-Project/tests/obj/Debug/net8.0/tests.csproj.AssemblyReference.cache
+/home/warduck/proib/ProIn/RL-Driving-Game-Project/tests/obj/Debug/net8.0/tests.GeneratedMSBuildEditorConfig.editorconfig
+/home/warduck/proib/ProIn/RL-Driving-Game-Project/tests/obj/Debug/net8.0/tests.AssemblyInfoInputs.cache
+/home/warduck/proib/ProIn/RL-Driving-Game-Project/tests/obj/Debug/net8.0/tests.AssemblyInfo.cs
+/home/warduck/proib/ProIn/RL-Driving-Game-Project/tests/obj/Debug/net8.0/tests.csproj.CoreCompileInputs.cache
+/home/warduck/proib/ProIn/RL-Driving-Game-Project/tests/obj/Debug/net8.0/tests.sourcelink.json

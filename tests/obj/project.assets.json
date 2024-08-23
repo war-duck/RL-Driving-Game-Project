@@ -1,0 +1,115 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "encog-dotnet-core/3.4.0": {
+        "type": "package",
+        "compile": {
+          "lib/encog-core-cs.dll": {}
+        },
+        "runtime": {
+          "lib/encog-core-cs.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "encog-dotnet-core/3.4.0": {
+      "sha512": "WUacWTVw9zGQlmYVAKdULn5pAG2XcnfhVaYNURLNBZtsRgoXRmXORH0HJigaXaT+x61cp/6XoOcajd5X++wLtg==",
+      "type": "package",
+      "path": "encog-dotnet-core/3.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "encog-dotnet-core.3.4.0.nupkg.sha512",
+        "encog-dotnet-core.nuspec",
+        "lib/encog-core-cs.dll"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "encog-dotnet-core >= 3.4.0"
+    ]
+  },
+  "packageFolders": {
+    "/home/warduck/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/home/warduck/proib/ProIn/RL-Driving-Game-Project/tests/tests.csproj",
+      "projectName": "tests",
+      "projectPath": "/home/warduck/proib/ProIn/RL-Driving-Game-Project/tests/tests.csproj",
+      "packagesPath": "/home/warduck/.nuget/packages/",
+      "outputPath": "/home/warduck/proib/ProIn/RL-Driving-Game-Project/tests/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/home/warduck/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "dependencies": {
+          "encog-dotnet-core": {
+            "target": "Package",
+            "version": "[3.4.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.7, 8.0.7]"
+          }
+        ],
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.107/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'encog-dotnet-core 3.4.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "libraryId": "encog-dotnet-core",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
+}
