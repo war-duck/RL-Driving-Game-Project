@@ -24,6 +24,7 @@ public partial class Terrain : StaticBody2D
     {
         Vector2[] vertices;
         vertices = GenerateTerrainVertices();
+        AddGasCans(vertices.ToArray());
         ApplyVerticesToChildren(vertices);
     }
 
@@ -41,7 +42,6 @@ public partial class Terrain : StaticBody2D
             };
             vertices.Add(point);
         }
-        AddGasCans(vertices.ToArray());
         vertices.Add(vertices.Last() + new Vector2(200, 0));
         Vector2 enclosingPoint = new Vector2(vertices.Last().X, -distToGround);
         vertices.Add(enclosingPoint);

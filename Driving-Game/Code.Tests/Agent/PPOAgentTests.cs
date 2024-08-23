@@ -32,4 +32,14 @@ public class PPOAgentTests
 
         Assert.ThrowsException<Exception>(() => PPOAgent.CalcLogProb(observations, actions));
     }
+
+    [TestMethod]
+    public void CalcDiscountedCumSums_ReturnsDiscountedSums()
+    {
+        double[] rewards = [1.0, 2.0, 3.0, 4.0, 5.0];
+        double gamma = 0.99;
+        double[] discountedSums = PPOAgent.CalcDiscountedCumSums(rewards, gamma);
+        double[] expected = [14.604476, 13.741895, 11.8605, 8.95, 5];
+        CollectionAssert.AreEqual(expected, discountedSums, Comparer<double>.Create((x, y) => Math.Abs(x - y) < 1e-7 ? 0 : 1));
+    }
 }

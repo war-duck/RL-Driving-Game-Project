@@ -4,12 +4,10 @@ using Encog.Neural.Networks;
 using Encog.Neural.Networks.Layers;
 public class PPOAgent
 {
-    BasicNetwork model;
-    public PPOAgent(int inputSize = 5, int outputSize = 3, int[] hiddenLayers = null)
+    public BasicNetwork model;
+    public PPOAgent(int inputSize, int outputSize, int[] hiddenLayers)
     {
-        hiddenLayers ??= new int[] { 5 };
-        GenerateModel(inputSize, hiddenLayers, outputSize, new ActivationReLU(), new ActivationSoftMax()); 
-        // model.Compile(optimizer: "adam", loss: "categorical_crossentropy");
+        GenerateModel(inputSize, hiddenLayers, outputSize, new ActivationReLU(), new ActivationSoftMax());
     }
 
     private void GenerateModel(int inputSize, int[] hiddenLayerSizes, int outputSize,
