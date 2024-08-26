@@ -1,4 +1,6 @@
 using System.Linq;
+using System.Runtime.CompilerServices;
+using Encog.Util.NetworkUtil;
 public class Buffer
 {
     double[][] observationBuffer;
@@ -6,7 +8,7 @@ public class Buffer
     double[] advantageBuffer, rewardBuffer, returnBuffer, valueBuffer, logProbBuffer;
     double discount, lambda;
     int counter, bufferSize; // counter - ilość elementów w buforze, bufferSize - maksymalna ilość elementów w buforze
-    public Buffer(int inputSize, int bufferSize, double discount, double lambda)
+    public Buffer(int inputSize)
     {
         observationBuffer = new double[bufferSize][];
         for (int i = 0; i < bufferSize; i++)
@@ -19,10 +21,11 @@ public class Buffer
         returnBuffer = new double[bufferSize];
         valueBuffer = new double[bufferSize];
         logProbBuffer = new double[bufferSize];
-        this.discount = discount;
-        this.lambda = lambda;
-        this.counter = 0;
-        this.bufferSize = bufferSize;
+        TrainingParams trainingParams = DataLoader.Instance.GetTrainingParams();
+        discount = trainingParams.discount;
+        lambda = trainingParams.lambda;
+        bufferSize = trainingParams.batchSize;
+        counter = 0;
     }
     public void Add(double[] observation, int action, double reward, double value, double logProb)
     {
@@ -52,13 +55,13 @@ public class Buffer
         }
 
         // liczymy advantage
-        double[] cumsum = PPOAgent.CalcDiscountedCumSums(deltas, discount * lambda);
+        double[] cumsum = Agent.CalcDiscountedCumSums(deltas, discount * lambda);
         for (int i = 0; i < counter; ++i)
         {
             advantageBuffer[i] = cumsum[i];
         }
         // liczymy rewards-to-go
-        cumsum = PPOAgent.CalcDiscountedCumSums(rewards.SkipLast(1).ToArray(), discount);
+        cumsum = Agent.CalcDiscountedCumSums(rewards.SkipLast(1).ToArray(), discount);
         for (int i = 0; i < counter; ++i)
         {
             returnBuffer[i] = cumsum[i];
@@ -66,10 +69,11 @@ public class Buffer
     }
     public (double[][], int[], double[], double[], double[]) GetBuffer()
     {
-        counter = 0;
-        NormalizeAdvantages();
         return (observationBuffer, actionBuffer, advantageBuffer, returnBuffer, logProbBuffer);
-
+    }
+    public void Reset()
+    {
+        counter = 0;
     }
     private void NormalizeAdvantages()
     {
