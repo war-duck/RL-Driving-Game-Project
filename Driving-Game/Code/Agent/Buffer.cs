@@ -1,20 +1,15 @@
 using System.Linq;
-using System.Runtime.CompilerServices;
-using Encog.Util.NetworkUtil;
+using Encog.ML.Data;
 public class Buffer
 {
-    double[][] observationBuffer;
+    IMLData[] observationBuffer;
     int[] actionBuffer;
     double[] advantageBuffer, rewardBuffer, returnBuffer, valueBuffer, logProbBuffer;
     double discount, lambda;
     int counter, bufferSize; // counter - ilość elementów w buforze, bufferSize - maksymalna ilość elementów w buforze
     public Buffer(int inputSize)
     {
-        observationBuffer = new double[bufferSize][];
-        for (int i = 0; i < bufferSize; i++)
-        {
-            observationBuffer[i] = new double[inputSize];
-        }
+        observationBuffer = new IMLData[bufferSize];
         actionBuffer = new int[bufferSize];
         advantageBuffer = new double[bufferSize];
         rewardBuffer = new double[bufferSize];
@@ -27,27 +22,24 @@ public class Buffer
         bufferSize = trainingParams.batchSize;
         counter = 0;
     }
-    public void Add(double[] observation, int action, double reward, double value, double logProb)
+    public void Add(IMLData observation, int action, double reward, double value)
     {
         if (counter >= bufferSize)
         {
             throw new System.Exception("Buffer overflow");
         }
-        for (int i = 0; i < observation.Length; i++)
-        {
-            observationBuffer[counter][i] = observation[i];
-        }
+        observationBuffer[counter] = observation;
         actionBuffer[counter] = action;
         rewardBuffer[counter] = reward;
         valueBuffer[counter] = value;
-        logProbBuffer[counter] = logProb;
         ++counter;
     }
     public void Finish(double lastValue = 0) // 0 jeżeli koniec epizodu (śmierć); inaczej V(S_t)
     {
         // przycinamy bufor, dodajemy ostatnią wartość
         double[] rewards = rewardBuffer.Take(counter).Append(lastValue).ToArray();
-        double[] values  = valueBuffer.Take(counter).Append(lastValue).ToArray();
+        // double[] values  = valueBuffer.Take(counter).Append(lastValue).ToArray();
+        double[] values = new double[counter + 1];
         double[] deltas = new double[counter];
         for (int i = 0; i < counter; i++)
         {
@@ -67,7 +59,7 @@ public class Buffer
             returnBuffer[i] = cumsum[i];
         }
     }
-    public (double[][], int[], double[], double[], double[]) GetBuffer()
+    public (IMLData[], int[], double[], double[], double[]) GetBuffer()
     {
         return (observationBuffer, actionBuffer, advantageBuffer, returnBuffer, logProbBuffer);
     }

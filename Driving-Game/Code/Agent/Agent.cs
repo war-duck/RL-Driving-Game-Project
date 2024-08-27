@@ -7,6 +7,7 @@ using Encog.Neural.Networks;
 using Encog.Neural.Networks.Layers;
 using Encog.Neural.Networks.Training.Propagation;
 using Encog.Neural.Networks.Training.Propagation.Resilient;
+using Encog.Util;
 public class Agent
 {
     public BasicNetwork model;
@@ -69,10 +70,14 @@ public class Agent
         }
         return actionProbabilities;
     }
-    public void Train(double[][] observations, double[][] targets)
+    public void Train(IMLData[] observations, double[][] targets)
     {
-        
-        Propagation train = new ResilientPropagation(model, new BasicMLDataSet(observations, targets));
+        double[][] observationArray = EngineArray.AllocateDouble2D(observations[0].Count, observations.Length); 
+        for (int i = 0; i < observations.Length; i++)
+        {
+            observations[i].CopyTo(observationArray[i], 0, observations[i].Count);
+        }
+        Propagation train = new ResilientPropagation(model, new BasicMLDataSet(observationArray, targets));
         for (int i = 0; i < epochs; i++)
         {
             train.Iteration();

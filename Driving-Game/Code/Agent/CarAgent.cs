@@ -21,4 +21,21 @@ public class CarAgent
         IMLData output = actor.model.Compute(observation);
         return (output, (InputType)RouletteWheel.RandomChoice(output));
     }
+    public double GetValue(IMLData observation)
+    {
+        return critic.model.Compute(observation)[0];
+    }
+    public void Train()
+    {
+        for (int i = 0; i < DataLoader.Instance.trainingParams.epochs; i++)
+        {
+            var (observations, actions, advantages, returns, logProbs) = buffer.GetBuffer();
+            var actorGoals = GetActorGoals(advantages, logProbs);
+            actor.Train(observations, actorGoals);
+        }
+    }
+    double[][] GetActorGoals(double[] advantages, double[] logProbs)
+    {
+        return new double[advantages.Length][];
+    }
 }
