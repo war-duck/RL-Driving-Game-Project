@@ -27,7 +27,8 @@ public class DataLoader
             clipRatio = 0.2,
             policyLearningRate = 0.0003,
             valueLearningRate = 0.001,
-            targetKLDivergence = 0.01
+            targetKLDivergence = 0.01,
+            maxEpisodeLength = 5000
         };
         agentData = new AgentData
         {
@@ -53,6 +54,7 @@ public struct TrainingParams
     public double policyLearningRate;
     public double valueLearningRate;
     public double targetKLDivergence;
+    public int maxEpisodeLength;
 }
 public struct AgentData
 {
