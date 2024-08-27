@@ -1,5 +1,8 @@
+using Encog.ML.Data;
+using Encog.ML.Genetic.Genome;
 using Godot;
 using System.Collections.Generic;
+using System.Windows.Markup;
 
 public partial class Level : Node2D
 {
@@ -19,8 +22,21 @@ public partial class Level : Node2D
         foreach (var rlapi in players)
         {
             // InputType randomInput = (InputType)(GD.Randi() % 3);
-            InputType input = getPlayerInput();
-            rlapi.ApplyModelInput(input);
+            (IMLData observation, int action) = rlapi.ProcessModelInput(delta);
+            var (reward, isDead) = rlapi.GetReward();
+            var value = rlapi.carAgent.GetValue(observation);
+            if (isDead)
+            {
+                ProcessBuffer(rlapi, observation, action, reward, value);
+            }
+            try
+            {
+                rlapi.carAgent.buffer.Add(observation, action, reward, value);
+            }
+            catch (System.Exception)
+            {
+                ProcessBuffer(rlapi, observation, action, reward, value);
+            }
         }
     }
     public override void _ExitTree()
@@ -37,7 +53,7 @@ public partial class Level : Node2D
         for (int i = 0; i < numberOfPlayers; i++)
         {
 			Player playerInstance = playerScene.Instantiate() as Player;
-            players.Add(new RLAPI(playerInstance));
+            players.Add(new RLAPI(playerInstance, new CarAgent()));
 			AddChild(playerInstance);
         }
     }
@@ -53,19 +69,27 @@ public partial class Level : Node2D
 		}
 		return bestDist;
 	}
-    private InputType getPlayerInput()
+    private void ProcessBuffer(RLAPI rlapi, IMLData observation, int action, double reward, double value)
     {
-        if (Input.IsActionPressed("ui_right"))
-        {
-            return InputType.Accelerate;
-        }
-        if (Input.IsActionPressed("ui_left"))
-        {
-            return InputType.Brake;
-        }
-        else
-        {
-            return InputType.None;
-        }
+        rlapi.carAgent.buffer.Finish(value);
+        rlapi.carAgent.buffer.Reset();
+        rlapi.carAgent.Train();
+        rlapi.carAgent.buffer.Add(observation, action, reward, value);
+        rlapi.player.QueueFree();
     }
+    // private InputType getPlayerInput()
+    // {
+    //     if (Input.IsActionPressed("ui_right")) // manual steering
+    //     {
+    //         return InputType.Accelerate;
+    //     }
+    //     if (Input.IsActionPressed("ui_left"))
+    //     {
+    //         return InputType.Brake;
+    //     }
+    //     else
+    //     {
+    //         return InputType.None;
+    //     }
+    // }
 }

@@ -1,3 +1,5 @@
+using Encog.ML.Data;
+using Encog.ML.Data.Basic;
 using Godot;
 
 public class MyGameEnv
@@ -11,23 +13,23 @@ public class MyGameEnv
         this.level = level;
         this.level.SpawnPlayers(playerNum);
     }
-    public int[] GetCurrentState(int player = 0)
+    public IMLData GetCurrentState(int player = 0)
     {
         if (player >= playerNum)
         {
             return null;
         }
-        int[] state = new int[stateSize];
+        double[] state = new double[stateSize];
         if (level.players[player].player == null)
         {
-            return state;
+            return new BasicMLData(state);
         }
         state[0] = level.players[player].player.playerData.Rotation;
         state[1] = level.players[player].player.playerData.Slope;
         state[2] = level.players[player].player.playerData.DistToGround;
         state[3] = level.players[player].player.playerData.AngularVelocity;
         state[4] = level.players[player].player.playerData.IsTouchingGround ? 1 : 0;
-        return state;
+        return new BasicMLData(state);
     }
     public void Reset()
     {

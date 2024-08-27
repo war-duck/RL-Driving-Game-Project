@@ -51,6 +51,9 @@ public partial class Player : RigidBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+    }
+    public void MovePlayer(double delta)
+    {
         HandleFuel();
         CalcPlayerData();
         DrawPlayerData();
@@ -59,7 +62,7 @@ public partial class Player : RigidBody2D
     }
 
     private void GetInput()
-    {
+    {                // for manual override
         if (!Input.IsActionPressed("ui_accept"))
         {
             return;
