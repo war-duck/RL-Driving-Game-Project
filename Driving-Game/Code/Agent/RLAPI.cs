@@ -24,12 +24,12 @@ public class RLAPI
     }
     public (IMLData, int) ProcessModelInput(double delta)
     {
-        var (observation, action) = carAgent.GetAction(player.playerData.ToMLData());
+        var (probs, action) = carAgent.GetAction(player.playerData.ToMLData());
         player.SetCurrentInput(action);
-        Console.WriteLine("Action: " + action + "\t Observation: " + observation);
+        Console.WriteLine("Action: " + action + "\t Observation: " + probs);
         player.MovePlayer(delta);
         ++currentEpisodeLength;
-        return (observation, (int)action);
+        return (probs, (int)action);
     }
     public void KillPlayer()
     {

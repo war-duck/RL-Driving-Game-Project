@@ -1,5 +1,6 @@
 using System.Linq;
 using Encog.ML.Data;
+using Encog.ML.Data.Buffer;
 public class Buffer
 {
     IMLData[] observationBuffer;
@@ -9,6 +10,10 @@ public class Buffer
     int counter, bufferSize; // counter - ilość elementów w buforze, bufferSize - maksymalna ilość elementów w buforze
     public Buffer(int inputSize)
     {
+        TrainingParams trainingParams = DataLoader.Instance.GetTrainingParams();
+        discount = trainingParams.discount;
+        lambda = trainingParams.lambda;
+        bufferSize = trainingParams.batchSize;
         observationBuffer = new IMLData[bufferSize];
         actionBuffer = new int[bufferSize];
         advantageBuffer = new double[bufferSize];
@@ -16,17 +21,13 @@ public class Buffer
         returnBuffer = new double[bufferSize];
         valueBuffer = new double[bufferSize];
         logProbBuffer = new double[bufferSize];
-        TrainingParams trainingParams = DataLoader.Instance.GetTrainingParams();
-        discount = trainingParams.discount;
-        lambda = trainingParams.lambda;
-        bufferSize = trainingParams.batchSize;
         counter = 0;
     }
     public void Add(IMLData observation, int action, double reward, double value)
     {
         if (counter >= bufferSize)
         {
-            throw new System.Exception("Buffer overflow");
+            throw new OverflowException("Buffer overflow");
         }
         observationBuffer[counter] = observation;
         actionBuffer[counter] = action;

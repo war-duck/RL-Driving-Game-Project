@@ -1,4 +1,5 @@
 using Encog.ML.Data;
+using Encog.ML.Data.Buffer;
 using Encog.ML.Genetic.Genome;
 using Godot;
 using System.Collections.Generic;
@@ -22,8 +23,9 @@ public partial class Level : Node2D
         foreach (var rlapi in players)
         {
             // InputType randomInput = (InputType)(GD.Randi() % 3);
-            (IMLData observation, int action) = rlapi.ProcessModelInput(delta);
+            (_, int action) = rlapi.ProcessModelInput(delta);
             var (reward, isDead) = rlapi.GetReward();
+            var observation = rlapi.player.playerData.ToMLData();
             var value = rlapi.carAgent.GetValue(observation);
             if (isDead)
             {
@@ -33,7 +35,7 @@ public partial class Level : Node2D
             {
                 rlapi.carAgent.buffer.Add(observation, action, reward, value);
             }
-            catch (System.Exception)
+            catch (OverflowException) // buffer full
             {
                 ProcessBuffer(rlapi, observation, action, reward, value);
             }
@@ -53,8 +55,8 @@ public partial class Level : Node2D
         for (int i = 0; i < numberOfPlayers; i++)
         {
 			Player playerInstance = playerScene.Instantiate() as Player;
-            players.Add(new RLAPI(playerInstance, new CarAgent()));
 			AddChild(playerInstance);
+            players.Add(new RLAPI(playerInstance, new CarAgent()));
         }
     }
 	private Vector2 GetBestPlayerPosition()
