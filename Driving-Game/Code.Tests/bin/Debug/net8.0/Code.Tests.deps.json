@@ -9,11 +9,9 @@
       "Code.Tests/1.0.0": {
         "dependencies": {
           "Driving-Game": "1.0.0",
-          "MSTest.TestAdapter": "3.0.4",
-          "MSTest.TestFramework": "3.0.4",
           "Microsoft.NET.Test.Sdk": "17.6.0",
           "coverlet.collector": "6.0.0",
-          "Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions": "14.0.0.0"
+          "xunit.runner.visualstudio": "2.4.5"
         },
         "runtime": {
           "Code.Tests.dll": {}
@@ -28,23 +26,23 @@
           }
         }
       },
-      "Godot.SourceGenerators/4.2.2": {},
-      "GodotSharp/4.2.2": {
+      "Godot.SourceGenerators/4.3.0": {},
+      "GodotSharp/4.3.0": {
         "runtime": {
           "lib/net6.0/GodotSharp.dll": {
-            "assemblyVersion": "4.2.2.0",
-            "fileVersion": "4.2.2.0"
+            "assemblyVersion": "4.3.0.0",
+            "fileVersion": "4.3.0.0"
           }
         }
       },
-      "GodotSharpEditor/4.2.2": {
+      "GodotSharpEditor/4.3.0": {
         "dependencies": {
-          "GodotSharp": "4.2.2"
+          "GodotSharp": "4.3.0"
         },
         "runtime": {
           "lib/net6.0/GodotSharpEditor.dll": {
-            "assemblyVersion": "4.2.2.0",
-            "fileVersion": "4.2.2.0"
+            "assemblyVersion": "4.3.0.0",
+            "fileVersion": "4.3.0.0"
           }
         }
       },
@@ -309,56 +307,6 @@
           }
         }
       },
-      "MSTest.TestAdapter/3.0.4": {},
-      "MSTest.TestFramework/3.0.4": {
-        "runtime": {
-          "lib/net6.0/Microsoft.VisualStudio.TestPlatform.TestFramework.dll": {
-            "assemblyVersion": "14.0.0.0",
-            "fileVersion": "14.0.8501.1"
-          }
-        },
-        "resources": {
-          "lib/net6.0/cs/Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll": {
-            "locale": "cs"
-          },
-          "lib/net6.0/de/Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll": {
-            "locale": "de"
-          },
-          "lib/net6.0/es/Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll": {
-            "locale": "es"
-          },
-          "lib/net6.0/fr/Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll": {
-            "locale": "fr"
-          },
-          "lib/net6.0/it/Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll": {
-            "locale": "it"
-          },
-          "lib/net6.0/ja/Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll": {
-            "locale": "ja"
-          },
-          "lib/net6.0/ko/Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll": {
-            "locale": "ko"
-          },
-          "lib/net6.0/pl/Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll": {
-            "locale": "pl"
-          },
-          "lib/net6.0/pt-BR/Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll": {
-            "locale": "pt-BR"
-          },
-          "lib/net6.0/ru/Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll": {
-            "locale": "ru"
-          },
-          "lib/net6.0/tr/Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll": {
-            "locale": "tr"
-          },
-          "lib/net6.0/zh-Hans/Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll": {
-            "locale": "zh-Hans"
-          },
-          "lib/net6.0/zh-Hant/Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll": {
-            "locale": "zh-Hant"
-          }
-        }
-      },
       "Newtonsoft.Json/13.0.1": {
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {
@@ -376,23 +324,69 @@
         }
       },
       "System.Reflection.Metadata/1.6.0": {},
+      "xunit/2.9.0": {
+        "dependencies": {
+          "xunit.analyzers": "1.15.0",
+          "xunit.assert": "2.9.0",
+          "xunit.core": "2.9.0"
+        }
+      },
+      "xunit.abstractions/2.0.3": {
+        "runtime": {
+          "lib/netstandard2.0/xunit.abstractions.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "xunit.analyzers/1.15.0": {},
+      "xunit.assert/2.9.0": {
+        "runtime": {
+          "lib/net6.0/xunit.assert.dll": {
+            "assemblyVersion": "2.9.0.0",
+            "fileVersion": "2.9.0.0"
+          }
+        }
+      },
+      "xunit.core/2.9.0": {
+        "dependencies": {
+          "xunit.extensibility.core": "2.9.0",
+          "xunit.extensibility.execution": "2.9.0"
+        }
+      },
+      "xunit.extensibility.core/2.9.0": {
+        "dependencies": {
+          "xunit.abstractions": "2.0.3"
+        },
+        "runtime": {
+          "lib/netstandard1.1/xunit.core.dll": {
+            "assemblyVersion": "2.9.0.0",
+            "fileVersion": "2.9.0.0"
+          }
+        }
+      },
+      "xunit.extensibility.execution/2.9.0": {
+        "dependencies": {
+          "xunit.extensibility.core": "2.9.0"
+        },
+        "runtime": {
+          "lib/netstandard1.1/xunit.execution.dotnet.dll": {
+            "assemblyVersion": "2.9.0.0",
+            "fileVersion": "2.9.0.0"
+          }
+        }
+      },
+      "xunit.runner.visualstudio/2.4.5": {},
       "Driving-Game/1.0.0": {
         "dependencies": {
-          "Godot.SourceGenerators": "4.2.2",
-          "GodotSharp": "4.2.2",
-          "GodotSharpEditor": "4.2.2",
+          "Godot.SourceGenerators": "4.3.0",
+          "GodotSharp": "4.3.0",
+          "GodotSharpEditor": "4.3.0",
+          "xunit": "2.9.0",
           "encog-dotnet-core": "3.4.0"
         },
         "runtime": {
           "Driving-Game.dll": {}
-        }
-      },
-      "Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions/14.0.0.0": {
-        "runtime": {
-          "Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll": {
-            "assemblyVersion": "14.0.0.0",
-            "fileVersion": "14.0.8501.1"
-          }
         }
       }
     }
@@ -417,26 +411,26 @@
       "path": "encog-dotnet-core/3.4.0",
       "hashPath": "encog-dotnet-core.3.4.0.nupkg.sha512"
     },
-    "Godot.SourceGenerators/4.2.2": {
+    "Godot.SourceGenerators/4.3.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-QGO7NjcG4W1doQTOXBp2TgAK+a6npFX2dYCw1CXttRh3/UI76sQnCUUe9/U95e6uMO9SzVK7wzEH3H4qGpOr4g==",
-      "path": "godot.sourcegenerators/4.2.2",
-      "hashPath": "godot.sourcegenerators.4.2.2.nupkg.sha512"
+      "sha512": "sha512-fLDNOAo/kpL1JtGXP6b2M48dobzb5YmKSRLXKDt+td8qegu0Ao3H25avoySVmrb52d7zpe8yvgMwba7QMhqnqQ==",
+      "path": "godot.sourcegenerators/4.3.0",
+      "hashPath": "godot.sourcegenerators.4.3.0.nupkg.sha512"
     },
-    "GodotSharp/4.2.2": {
+    "GodotSharp/4.3.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-J2ZXDTuS4LlbPIOK2HCBD9lKNFvBzJLv6LIyFC3fAUKgUXZHvoKP/uwS+Iv/CrMZqsa+lQ+Wb4zfp5xoBrSCcw==",
-      "path": "godotsharp/4.2.2",
-      "hashPath": "godotsharp.4.2.2.nupkg.sha512"
+      "sha512": "sha512-mEwRmNIG2k/yPfkFencEkNVXpHCa+uETHkIQcq0MxcsfwJQZ4HueFU5Q9CYDIdd5YrRPqjwuyxbsuD6Je8lfdQ==",
+      "path": "godotsharp/4.3.0",
+      "hashPath": "godotsharp.4.3.0.nupkg.sha512"
     },
-    "GodotSharpEditor/4.2.2": {
+    "GodotSharpEditor/4.3.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-nNXntakfzSuH5AnQKBpznN8pF+3uYj9XmGIEMeR+6GOzg8gxx2b09bhVZm3q6onzldPEoo1YChBRL1zWWjOM6Q==",
-      "path": "godotsharpeditor/4.2.2",
-      "hashPath": "godotsharpeditor.4.2.2.nupkg.sha512"
+      "sha512": "sha512-r7A3lszHS9/gIWoOb7w+MNtEjrD/NRX+9ACHq01GD2+lctu6eHsmlSTA0Ah1bjJDKs9rDZeSq+42zwXvtBsPzQ==",
+      "path": "godotsharpeditor/4.3.0",
+      "hashPath": "godotsharpeditor.4.3.0.nupkg.sha512"
     },
     "Microsoft.CodeCoverage/17.6.0": {
       "type": "package",
@@ -466,20 +460,6 @@
       "path": "microsoft.testplatform.testhost/17.6.0",
       "hashPath": "microsoft.testplatform.testhost.17.6.0.nupkg.sha512"
     },
-    "MSTest.TestAdapter/3.0.4": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-18THEGVcU4fbAOZWvRtEyvQCnZ/o+3LFAiFbAkWYh63GC5TmHoJ10IUiF9L02SMmbLbWpH1/PxvO7mcInIY4/Q==",
-      "path": "mstest.testadapter/3.0.4",
-      "hashPath": "mstest.testadapter.3.0.4.nupkg.sha512"
-    },
-    "MSTest.TestFramework/3.0.4": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-hYq5xOOr2k09rtXpmcHkJ4Tdt/yS4cy8jiFPNMdDJP+lB6OY8yekOmQC4Fsvug4rhLpXGDd6zbPWYeoewqfePA==",
-      "path": "mstest.testframework/3.0.4",
-      "hashPath": "mstest.testframework.3.0.4.nupkg.sha512"
-    },
     "Newtonsoft.Json/13.0.1": {
       "type": "package",
       "serviceable": true,
@@ -501,13 +481,64 @@
       "path": "system.reflection.metadata/1.6.0",
       "hashPath": "system.reflection.metadata.1.6.0.nupkg.sha512"
     },
+    "xunit/2.9.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PtU3rZ0ThdmdJqTbK7GkgFf6iBaCR6Q0uvJHznID+XEYk2v6O/b7sRxqnbi3B2gRDXxjTqMkVNayzwsqsFUxRw==",
+      "path": "xunit/2.9.0",
+      "hashPath": "xunit.2.9.0.nupkg.sha512"
+    },
+    "xunit.abstractions/2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pot1I4YOxlWjIb5jmwvvQNbTrZ3lJQ+jUGkGjWE3hEFM0l5gOnBWS+H3qsex68s5cO52g+44vpGzhAt+42vwKg==",
+      "path": "xunit.abstractions/2.0.3",
+      "hashPath": "xunit.abstractions.2.0.3.nupkg.sha512"
+    },
+    "xunit.analyzers/1.15.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-s+M8K/Rtlgr6CmD7AYQKrNTvT5sh0l0ZKDoZ3Z/ExhlIwfV9mGAMR4f7KqIB7SSK7ZOhqDTgTUMYPmKfmvWUWQ==",
+      "path": "xunit.analyzers/1.15.0",
+      "hashPath": "xunit.analyzers.1.15.0.nupkg.sha512"
+    },
+    "xunit.assert/2.9.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Z/1pyia//860wEYTKn6Q5dmgikJdRjgE4t5AoxJkK8oTmidzPLEPG574kmm7LFkMLbH6Frwmgb750kcyR+hwoA==",
+      "path": "xunit.assert/2.9.0",
+      "hashPath": "xunit.assert.2.9.0.nupkg.sha512"
+    },
+    "xunit.core/2.9.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uRaop9tZsZMCaUS4AfbSPGYHtvywWnm8XXFNUqII7ShWyDBgdchY6gyDNgO4AK1Lv/1NNW61Zq63CsDV6oH6Jg==",
+      "path": "xunit.core/2.9.0",
+      "hashPath": "xunit.core.2.9.0.nupkg.sha512"
+    },
+    "xunit.extensibility.core/2.9.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zjDEUSxsr6UNij4gIwCgMqQox+oLDPRZ+mubwWLci+SssPBFQD1xeRR4SvgBuXqbE0QXCJ/STVTp+lxiB5NLVA==",
+      "path": "xunit.extensibility.core/2.9.0",
+      "hashPath": "xunit.extensibility.core.2.9.0.nupkg.sha512"
+    },
+    "xunit.extensibility.execution/2.9.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5ZTQZvmPLlBw6QzCOwM0KnMsZw6eGjbmC176QHZlcbQoMhGIeGcYzYwn5w9yXxf+4phtplMuVqTpTbFDQh2bqQ==",
+      "path": "xunit.extensibility.execution/2.9.0",
+      "hashPath": "xunit.extensibility.execution.2.9.0.nupkg.sha512"
+    },
+    "xunit.runner.visualstudio/2.4.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OwHamvBdUKgqsXfBzWiCW/O98BTx81UKzx2bieIOQI7CZFE5NEQZGi8PBQGIKawDW96xeRffiNf20SjfC0x9hw==",
+      "path": "xunit.runner.visualstudio/2.4.5",
+      "hashPath": "xunit.runner.visualstudio.2.4.5.nupkg.sha512"
+    },
     "Driving-Game/1.0.0": {
       "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions/14.0.0.0": {
-      "type": "reference",
       "serviceable": false,
       "sha512": ""
     }

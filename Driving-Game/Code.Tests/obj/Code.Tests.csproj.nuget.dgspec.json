@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/warduck/proib/ProIn/RL-Driving-Game-Project/Driving-Game/Code/Driving-Game.csproj": {
-                "projectPath": "/home/warduck/proib/ProIn/RL-Driving-Game-Project/Driving-Game/Code/Driving-Game.csproj"
+              "/home/warduck/proib/ProIn/RL-Driving-Game-Project/Driving-Game/Driving-Game.csproj": {
+                "projectPath": "/home/warduck/proib/ProIn/RL-Driving-Game-Project/Driving-Game/Driving-Game.csproj"
               }
             }
           }
@@ -42,21 +42,21 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "MSTest.TestAdapter": {
-              "target": "Package",
-              "version": "[3.0.4, )"
-            },
-            "MSTest.TestFramework": {
-              "target": "Package",
-              "version": "[3.0.4, )"
-            },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[17.6.0, )"
             },
             "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[6.0.0, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.4.5, )"
             }
           },
           "imports": [
@@ -85,14 +85,14 @@
         }
       }
     },
-    "/home/warduck/proib/ProIn/RL-Driving-Game-Project/Driving-Game/Code/Driving-Game.csproj": {
+    "/home/warduck/proib/ProIn/RL-Driving-Game-Project/Driving-Game/Driving-Game.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/warduck/proib/ProIn/RL-Driving-Game-Project/Driving-Game/Code/Driving-Game.csproj",
+        "projectUniqueName": "/home/warduck/proib/ProIn/RL-Driving-Game-Project/Driving-Game/Driving-Game.csproj",
         "projectName": "Driving-Game",
-        "projectPath": "/home/warduck/proib/ProIn/RL-Driving-Game-Project/Driving-Game/Code/Driving-Game.csproj",
+        "projectPath": "/home/warduck/proib/ProIn/RL-Driving-Game-Project/Driving-Game/Driving-Game.csproj",
         "packagesPath": "/home/warduck/.nuget/packages/",
-        "outputPath": "/home/warduck/proib/ProIn/RL-Driving-Game-Project/Driving-Game/Code/.godot/mono/temp/obj/",
+        "outputPath": "/home/warduck/proib/ProIn/RL-Driving-Game-Project/Driving-Game/.godot/mono/temp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/warduck/.nuget/NuGet/NuGet.Config"
@@ -121,15 +121,19 @@
           "dependencies": {
             "Godot.SourceGenerators": {
               "target": "Package",
-              "version": "[4.2.2, )"
+              "version": "[4.3.0, )"
             },
             "GodotSharp": {
               "target": "Package",
-              "version": "[4.2.2, )"
+              "version": "[4.3.0, )"
             },
             "GodotSharpEditor": {
               "target": "Package",
-              "version": "[4.2.2, )"
+              "version": "[4.3.0, )"
+            },
+            "Xunit": {
+              "target": "Package",
+              "version": "[2.9.0, )"
             },
             "encog-dotnet-core": {
               "target": "Package",
@@ -150,10 +154,6 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.32, 6.0.32]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
               "version": "[6.0.32, 6.0.32]"
             }
           ],

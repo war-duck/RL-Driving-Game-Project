@@ -36,6 +36,7 @@ public partial class Player : RigidBody2D
         BodyExited += OnBodyExited;
         GetNode<Area2D>("DeathArea").BodyEntered += OnDeathAreaBodyEntered;
         GasCanCollected += () => { fuelLevel = 100f; };
+        playerData.GlobalPositionX = GlobalPosition.X;
     }
 
     private void OnBodyEntered(Node body) { isColliding = true; }

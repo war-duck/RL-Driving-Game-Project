@@ -1,9 +1,9 @@
 using Encog.ML.Data.Basic;
+using Xunit;
 
-[TestClass]
 public class RouletteWheelTests
 {
-    [TestMethod]
+    [Fact]
     public void RandomChoice_ReturnsValidIndex()
     {
         var probabilities = new BasicMLData(new double[] { 0.2, 0.3, 0.5 });
@@ -13,7 +13,7 @@ public class RouletteWheelTests
         for (int i = 0; i < 1000; i++)
         {
             result = RouletteWheel.RandomChoice(probabilities, random);
-            Assert.AreEqual(result, (double)(probabilities.Count - 1) / 2, (double)(probabilities.Count - 1) / 2);
+            Assert.InRange(result, 0, probabilities.Count - 1);
         }
     }
 }
