@@ -22,22 +22,29 @@ public partial class Level : Node2D
         camera.GlobalPosition = GetBestPlayerPosition();
         foreach (var rlapi in players)
         {
-            // InputType randomInput = (InputType)(GD.Randi() % 3);
-            (_, int action) = rlapi.ProcessModelInput(delta);
-            var (reward, isDead) = rlapi.GetReward();
+            // (IMLData policyDist, int action) = rlapi.ProcessModelInput(delta);
             var observation = rlapi.player.playerData.ToMLData();
-            var value = rlapi.carAgent.GetValue(observation);
+            var (value, policyDist) = rlapi.carAgent.LookAhead(observation);
+            var action = RouletteWheel.RandomChoice(policyDist);
+            var logProb = Agent.CalcLogProb(policyDist);
+            var entropy = Agent.CalcEntropy(policyDist, logProb);
+            var (reward, isDead) = rlapi.Step(action, delta);
             if (isDead)
             {
-                ProcessBuffer(rlapi, observation, action, reward, value);
+                rlapi.ProcessBuffer();
+                rlapi.carAgent.Train();
+                ResetPlayer(rlapi);
             }
             try
             {
-                rlapi.carAgent.buffer.Add(observation, action, reward, value);
+                rlapi.carAgent.buffer.Add(observation, reward, value, logProb);
             }
             catch (OverflowException) // buffer full
             {
-                ProcessBuffer(rlapi, observation, action, reward, value);
+                rlapi.ProcessBuffer();
+                rlapi.carAgent.Train();
+                rlapi.carAgent.buffer.Reset();
+                rlapi.carAgent.buffer.Add(observation, reward, value, logProb);
             }
         }
     }
@@ -71,13 +78,13 @@ public partial class Level : Node2D
 		}
 		return bestDist;
 	}
-    private void ProcessBuffer(RLAPI rlapi, IMLData observation, int action, double reward, double value)
+    private void ResetPlayer(RLAPI rlapi)
     {
-        rlapi.carAgent.buffer.Finish(value);
+        rlapi.KillPlayer();
         rlapi.carAgent.buffer.Reset();
-        rlapi.carAgent.Train();
-        rlapi.carAgent.buffer.Add(observation, action, reward, value);
-        rlapi.player.QueueFree();
+        Player playerInstance = playerScene.Instantiate() as Player;
+        AddChild(playerInstance);
+        rlapi.player = playerInstance;
     }
     // private InputType getPlayerInput()
     // {

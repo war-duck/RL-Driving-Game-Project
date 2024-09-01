@@ -18,7 +18,7 @@ public class DataLoader
     {
         trainingParams = new TrainingParams
         {
-            batchSize = 64,
+            batchSize = 256,
             epochs = 10,
             policyTrainSteps = 80,
             valueTrainSteps = 80,
@@ -28,7 +28,7 @@ public class DataLoader
             policyLearningRate = 0.0003,
             valueLearningRate = 0.001,
             targetKLDivergence = 0.01,
-            maxEpisodeLength = 5000
+            maxEpisodeLength = 5000000
         };
         agentData = new AgentData
         {

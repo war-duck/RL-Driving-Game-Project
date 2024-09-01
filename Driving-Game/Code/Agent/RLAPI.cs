@@ -26,10 +26,17 @@ public class RLAPI
     {
         var (probs, action) = carAgent.GetAction(player.playerData.ToMLData());
         player.SetCurrentInput(action);
-        Console.WriteLine("Action: " + action + "\t Observation: " + probs);
+        Console.WriteLine("Action: " + action + "\t Action probs: " + probs);
         player.MovePlayer(delta);
         ++currentEpisodeLength;
         return (probs, (int)action);
+    }
+    public (double, bool) Step(int action, double delta)
+    {
+        player.SetCurrentInput((InputType)action);
+        player.MovePlayer(delta);
+        ++currentEpisodeLength;
+        return GetReward();
     }
     public void KillPlayer()
     {
@@ -39,17 +46,23 @@ public class RLAPI
     {
         if (player.playerData.HasDied)
         {
-            KillPlayer();
             return (-10, true);
         }
         if (currentEpisodeLength >= maxEpisodeLength)
         {
-            KillPlayer();
             return (0, true);
         }
         return (GetRecentCheckpoints(), false);
     }
-    public int GetRecentCheckpoints()
+    public IMLData GetObservation()
+    {
+        return player.playerData.ToMLData();
+    }
+    public void ProcessBuffer()
+    {
+        carAgent.buffer.Finish(carAgent.GetValue(GetObservation()));
+    }
+    int GetRecentCheckpoints()
     {
         int recentCheckpoints = (int)((player.playerData.GlobalPositionX - firstPosition) / rewardDistance - lastDistance);
         lastDistance += recentCheckpoints;

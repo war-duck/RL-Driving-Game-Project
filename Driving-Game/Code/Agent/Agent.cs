@@ -61,6 +61,24 @@ public class Agent
         }
         return logProbSum;
     }
+    public static double[] CalcLogProb(IMLData policyDist)
+    {
+        double[] logProb = new double[policyDist.Count];
+        for (int i = 0; i < policyDist.Count; i++)
+        {
+            logProb[i] = Math.Log(policyDist[i]);
+        }
+        return logProb;
+    }
+    public static double CalcEntropy(IMLData policyDist, double[] logProb)
+    {
+        double entropy = 0;
+        for (int i = 0; i < policyDist.Count; i++)
+        {
+            entropy -= policyDist[i] * logProb[i];
+        }
+        return entropy;
+    }
     public IMLData[] Predict(IMLData[] observations)
     {
         var actionProbabilities = new IMLData[observations.Length];
@@ -72,17 +90,13 @@ public class Agent
     }
     public void Train(IMLData[] observations, double[][] targets)
     {
-        double[][] observationArray = EngineArray.AllocateDouble2D(observations[0].Count, observations.Length); 
-        for (int i = 0; i < observations.Length; i++)
-        {
-            observations[i].CopyTo(observationArray[i], 0, observations[i].Count);
-        }
-        Propagation train = new ResilientPropagation(model, new BasicMLDataSet(observationArray, targets));
+        double[][] observationArray = GeneralUtils.IMLDataArrayToDoubleArray(observations);
+        var dataSet = new BasicMLDataSet(observationArray, targets);
+        Propagation train = new ResilientPropagation(model, dataSet);
         for (int i = 0; i < epochs; i++)
         {
             train.Iteration();
         }
-        Console.WriteLine("Error: " + train.Error);
     }
     void GetHyperparameters()
     {
