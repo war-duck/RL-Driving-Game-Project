@@ -108,11 +108,11 @@ public partial class Player : RigidBody2D
 
     private void CalcPlayerData()
     {
-        playerData.GlobalPositionX = (int)GlobalPosition.X;
-        playerData.Rotation = (int)Rotation;
+        playerData.GlobalPositionX = GlobalPosition.X;
+        playerData.Rotation = Rotation;
         playerData.Slope = rays.GetSlope();
-        playerData.DistToGround = (int)rays.GetGroundDist();
-        playerData.AngularVelocity = (int)(this.AngularVelocity*100);
+        playerData.DistToGround = rays.GetGroundDist();
+        playerData.AngularVelocity = AngularVelocity;
         playerData.IsTouchingGround = IsAnythingColliding();
         playerData.HasDied = hasDied;
     }

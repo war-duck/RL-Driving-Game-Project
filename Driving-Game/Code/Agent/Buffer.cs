@@ -1,15 +1,13 @@
-using System.Linq;
 using Encog.ML.Data;
-using Encog.ML.Data.Buffer;
-using Encog.Util;
-using Godot;
 public class Buffer
 {
     double[] rewardBuffer, valueBuffer, advantages, qValues;
+    int[] actionBuffer;
     IMLData[] observationBuffer;
     double[][] logProbBuffer;
     double discount, lambda;
     int counter, bufferSize; // counter - ilość elementów w buforze, bufferSize - maksymalna ilość elementów w buforze
+    bool isFull;
     public Buffer()
     {
         TrainingParams trainingParams = DataLoader.Instance.GetTrainingParams();
@@ -19,19 +17,25 @@ public class Buffer
         rewardBuffer = new double[bufferSize];
         valueBuffer = new double[bufferSize];
         logProbBuffer = new double[bufferSize][];
+        actionBuffer = new int[bufferSize];
         observationBuffer = new IMLData[bufferSize];
         counter = 0;
     }
-    public void Add(IMLData observation, double reward, double value, double[] logProb)
+    public void Add(IMLData observation, double reward, double value, double[] logProb, int action)
     {
-        if (counter >= bufferSize)
+        if (isFull)
         {
             throw new OverflowException("Buffer overflow");
+        }
+        if (counter == bufferSize - 1)
+        {
+            isFull = true;
         }
         observationBuffer[counter] = observation;
         rewardBuffer[counter] = reward;
         valueBuffer[counter] = value;
         logProbBuffer[counter] = logProb;
+        actionBuffer[counter] = action;
         ++counter;
     }
     public void Finish(double lastValue = 0) // 0 jeżeli koniec epizodu (śmierć); inaczej V(S_t)
@@ -49,7 +53,7 @@ public class Buffer
             advantages[t] -= valueBuffer[t];
         }
     }
-    public (IMLData[], double[], double[], double[][], double[]) GetBuffer()
+    public (IMLData[], double[], double[], double[][], double[], int[]) GetBuffer()
     {
         if (counter != bufferSize)
         {
@@ -59,10 +63,11 @@ public class Buffer
                 rewardBuffer.Take(counter).ToArray(),
                 valueBuffer.Take(counter).ToArray(),
                 logProbBuffer.Take(counter).ToArray(),
-                advantages.Take(counter).ToArray()
+                advantages.Take(counter).ToArray(),
+                actionBuffer.Take(counter).ToArray()
             );
         }
-        return (observationBuffer, rewardBuffer, valueBuffer, logProbBuffer, advantages);
+        return (observationBuffer, rewardBuffer, valueBuffer, logProbBuffer, advantages, actionBuffer);
     }
     public (double[][], double[][]) GetACGoals()
     {
@@ -76,6 +81,7 @@ public class Buffer
     public void Reset()
     {
         counter = 0;
+        isFull = false;
     }
     double[] CalcActorGoal(double advantage, double[] logProb)
     {

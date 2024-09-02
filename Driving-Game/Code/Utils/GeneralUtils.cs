@@ -1,7 +1,8 @@
+using Encog.Engine.Network.Activation;
 using Encog.ML.Data;
 using Encog.ML.Data.Basic;
 using Encog.Neural.Data.Basic;
-public class GeneralUtils
+public static class GeneralUtils
 {
     public static double[] ToDoubleArray(IMLData data)
     {
@@ -25,6 +26,19 @@ public class GeneralUtils
         {
             result[i] = ToDoubleArray(data[i]);
         }
+        return result;
+    }
+    static ActivationSoftMax softmax = new ActivationSoftMax();
+    public static double[] ToSoftmax(double[] data)
+    {
+        softmax.ActivationFunction(data, 0, data.Length);
+        return data;
+    }
+    public static double[] GetSoftmaxCopy(double[] data)
+    {
+        double[] result = new double[data.Length];
+        Array.Copy(data, result, data.Length);
+        softmax.ActivationFunction(result, 0, result.Length);
         return result;
     }
 }

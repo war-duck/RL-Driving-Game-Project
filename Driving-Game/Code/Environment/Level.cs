@@ -29,22 +29,23 @@ public partial class Level : Node2D
             var logProb = Agent.CalcLogProb(policyDist);
             var entropy = Agent.CalcEntropy(policyDist, logProb);
             var (reward, isDead) = rlapi.Step(action, delta);
-            if (isDead)
-            {
-                rlapi.ProcessBuffer();
-                rlapi.carAgent.Train();
-                ResetPlayer(rlapi);
-            }
             try
             {
-                rlapi.carAgent.buffer.Add(observation, reward, value, logProb);
+                rlapi.carAgent.buffer.Add(observation, reward, value, logProb, action);
+                if (isDead)
+                {
+                    throw new OverflowException();
+                }
             }
             catch (OverflowException) // buffer full
             {
                 rlapi.ProcessBuffer();
                 rlapi.carAgent.Train();
                 rlapi.carAgent.buffer.Reset();
-                rlapi.carAgent.buffer.Add(observation, reward, value, logProb);
+            }
+            if (isDead)
+            {
+                ResetPlayer(rlapi);
             }
         }
     }
@@ -81,7 +82,6 @@ public partial class Level : Node2D
     private void ResetPlayer(RLAPI rlapi)
     {
         rlapi.KillPlayer();
-        rlapi.carAgent.buffer.Reset();
         Player playerInstance = playerScene.Instantiate() as Player;
         AddChild(playerInstance);
         rlapi.player = playerInstance;

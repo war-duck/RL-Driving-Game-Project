@@ -40,6 +40,7 @@ public class CarAgent
             critic.Train(buffer.GetBuffer().Item1, criticGoals);
         }
         Console.WriteLine("Actor error: " + actor.model.CalculateError(new BasicMLDataSet(GeneralUtils.IMLDataArrayToDoubleArray(buffer.GetBuffer().Item1), buffer.GetACGoals().Item1)));
+        Console.WriteLine("Critic error: " + critic.model.CalculateError(new BasicMLDataSet(GeneralUtils.IMLDataArrayToDoubleArray(buffer.GetBuffer().Item1), buffer.GetACGoals().Item2)));
     }
     double[][] GetActorGoals(double[] advantages, double[] logProbs)
     {

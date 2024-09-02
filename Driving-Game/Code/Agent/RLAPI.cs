@@ -46,7 +46,7 @@ public class RLAPI
     {
         if (player.playerData.HasDied)
         {
-            return (-10, true);
+            return (-20, true);
         }
         if (currentEpisodeLength >= maxEpisodeLength)
         {

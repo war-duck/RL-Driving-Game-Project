@@ -25,14 +25,14 @@ public partial class Ray : Node2D
         return 0;
     }
 
-    public int GetSlope()
+    public double GetSlope()
     {
         GlobalRotation = 0;
         if (!slopeRays[0].IsColliding() || !slopeRays[1].IsColliding())
         {
             return 0;
         }
-        return -(int)(slopeRays[1].GetCollisionPoint().AngleToPoint(slopeRays[0].GetCollisionPoint())*57.2958);
+        return -slopeRays[1].GetCollisionPoint().AngleToPoint(slopeRays[0].GetCollisionPoint())*57.2958;
     }
     public override void _Draw()
     {
