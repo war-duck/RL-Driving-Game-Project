@@ -22,6 +22,12 @@ public class Agent
         GenerateModel(inputSize, hiddenLayers, outputSize, activationFunction, outputActivationFunction);
         this.buffer = buffer;
     }
+    public Agent(BasicNetwork model, Buffer buffer)
+    {
+        this.model = model;
+        this.buffer = buffer;
+        GetHyperparameters();
+    }
     private void GenerateModel(int inputSize, int[] hiddenLayerSizes, int outputSize,
                     IActivationFunction activationFunction, IActivationFunction outputActivationFunction)
     {

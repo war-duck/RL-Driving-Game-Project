@@ -12,8 +12,13 @@ config_version=5
 
 config/name="Driving-Game"
 run/main_scene="res://Levels/Level.tscn"
+run/print_header=false
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[debug]
+
+gdscript/warnings/enable=false
 
 [display]
 

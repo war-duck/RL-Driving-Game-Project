@@ -115,8 +115,8 @@ public partial class Player : RigidBody2D
         playerData.AngularVelocity = AngularVelocity;
         playerData.IsTouchingGround = IsAnythingColliding();
         playerData.HasDied = hasDied;
+        playerData.Speed = LinearVelocity.Length();
     }
-
     public void SetCurrentInput(InputType input)
     {
         currentInput = input;

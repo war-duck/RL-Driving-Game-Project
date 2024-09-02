@@ -8,6 +8,7 @@ public class Buffer
     double discount, lambda;
     int counter, bufferSize; // counter - ilość elementów w buforze, bufferSize - maksymalna ilość elementów w buforze
     bool isFull;
+    double lastValue;
     public Buffer()
     {
         TrainingParams trainingParams = DataLoader.Instance.GetTrainingParams();
@@ -40,18 +41,8 @@ public class Buffer
     }
     public void Finish(double lastValue = 0) // 0 jeżeli koniec epizodu (śmierć); inaczej V(S_t)
     {
-        qValues = new double[counter];
-        double qVal = lastValue;
-        for (int t = counter - 1; t >= 0; t--)
-        {
-            qVal = rewardBuffer[t] + discount * qVal;
-            qValues[t] = qVal;
-        }
-        advantages = qValues;
-        for (int t = 0; t < counter; t++)
-        {
-            advantages[t] -= valueBuffer[t];
-        }
+        this.lastValue = lastValue;
+        CalcAdvantages();
     }
     public (IMLData[], double[], double[], double[][], double[], int[]) GetBuffer()
     {
@@ -83,6 +74,10 @@ public class Buffer
         counter = 0;
         isFull = false;
     }
+    public void SetStateValues(double[] stateValues)
+    {
+        Array.Copy(stateValues, valueBuffer, stateValues.Length);
+    }
     double[] CalcActorGoal(double advantage, double[] logProb)
     {
         double[] actorGoal = new double[logProb.Length];
@@ -90,6 +85,21 @@ public class Buffer
         {
             actorGoal[i] = advantage * logProb[i];
         }
-        return actorGoal;
+        return GeneralUtils.ToSoftmax(actorGoal);
+    }
+    public void CalcAdvantages()
+    {
+        qValues = new double[counter];
+        double qVal = lastValue;
+        for (int t = counter - 1; t >= 0; t--)
+        {
+            qVal = rewardBuffer[t] + discount * qVal;
+            qValues[t] = qVal;
+        }
+        advantages = qValues;
+        for (int t = 0; t < counter; t++)
+        {
+            advantages[t] -= valueBuffer[t];
+        }
     }
 }

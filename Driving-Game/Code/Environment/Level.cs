@@ -53,6 +53,7 @@ public partial class Level : Node2D
     {
 		foreach (var rlapi in players)
 		{
+            rlapi.carAgent.SaveNetwork();
 			rlapi.KillPlayer();
 		}
         base._ExitTree();
@@ -64,7 +65,8 @@ public partial class Level : Node2D
         {
 			Player playerInstance = playerScene.Instantiate() as Player;
 			AddChild(playerInstance);
-            players.Add(new RLAPI(playerInstance, new CarAgent()));
+            // players.Add(new RLAPI(playerInstance, new CarAgent()));
+            players.Add(new RLAPI(playerInstance, CarAgent.LoadCarAgentFromNewest()));
         }
     }
 	private Vector2 GetBestPlayerPosition()
@@ -86,19 +88,4 @@ public partial class Level : Node2D
         AddChild(playerInstance);
         rlapi.player = playerInstance;
     }
-    // private InputType getPlayerInput()
-    // {
-    //     if (Input.IsActionPressed("ui_right")) // manual steering
-    //     {
-    //         return InputType.Accelerate;
-    //     }
-    //     if (Input.IsActionPressed("ui_left"))
-    //     {
-    //         return InputType.Brake;
-    //     }
-    //     else
-    //     {
-    //         return InputType.None;
-    //     }
-    // }
 }
