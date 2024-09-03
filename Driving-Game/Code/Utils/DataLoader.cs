@@ -18,7 +18,7 @@ public class DataLoader
     {
         trainingParams = new TrainingParams
         {
-            batchSize = 256,
+            batchSize = 768,
             epochs = 10,
             policyTrainSteps = 80,
             valueTrainSteps = 80,

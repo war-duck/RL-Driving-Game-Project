@@ -6,8 +6,9 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ntfxq"]
 
-[node name="Level" type="Node2D"]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("terrain")]
 script = ExtResource("1_g5x78")
+terrain = NodePath("Terrain")
 
 [node name="Terrain" parent="." instance=ExtResource("2_c0jo6")]
 position = Vector2(-500, 500)

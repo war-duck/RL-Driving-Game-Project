@@ -16,8 +16,10 @@ public partial class NetworkDisplayer : Node2D
     float circleRadius, stdLineWidth;
     Vector2[][] nodes;
     Line[] lines;
+    FontFile font;
     public void SetNetwork(IContainsFlat network)
     {
+        font = ResourceLoader.Load<FontFile>("res://Fonts/AgencyFB-Bold.ttf");
         this.network = network;
         var flat = network.Flat;
         CalcNetworkLayout(flat);
@@ -53,14 +55,21 @@ public partial class NetworkDisplayer : Node2D
     {
         for (int i = 0; i < lines.Length; ++i)
         {
-            DrawLine(lines[i].start, lines[i].end, lines[i].color, lines[i].thickness);
+            DrawLine(lines[i].start, lines[i].end, lines[i].color, lines[i].thickness, antialiased: true);
         }
         for (int i = 0; i < nodes.Length; ++i)
         {
             for (int j = 0; j < nodes[i].Length; ++j)
             {
-                DrawCircle(nodes[i][j], circleRadius, new Color(1, 1, 1));
+                DrawCircle(nodes[i][j], circleRadius, new Color(1, 1, 1), antialiased: true);
             }
+        }
+        var nameStringOffset = new Vector2(-circleRadius-200, circleRadius / 2);
+        for (int i = 0; i < PlayerData.paramNames.Length; ++i)
+        {
+            DrawString(font, nodes[0][i]  + nameStringOffset, PlayerData.paramNames[i],
+             modulate: new Color(0.7f,0.7f,0.7f), fontSize: (int)(circleRadius * 1.5), width: 200,
+             alignment: HorizontalAlignment.Right);
         }
     }
     void CalcLinePositions(FlatNetwork flat)

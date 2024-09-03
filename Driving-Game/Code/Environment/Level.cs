@@ -12,6 +12,8 @@ public partial class Level : Node2D
     public List<RLAPI> players = new List<RLAPI>();
 	private Camera2D camera;
     private NetworkDisplayer networkDisplayer;
+    [Export]
+    Terrain terrain;
     public override void _Ready()
     {
 		camera = GetNode<Camera2D>("Camera");
@@ -46,7 +48,7 @@ public partial class Level : Node2D
                 rlapi.ProcessBuffer();
                 rlapi.carAgent.Train();
                 networkDisplayer.DisplayNetwork(players[0].carAgent.GetAgents().Item1.model.Flat);
-                rlapi.carAgent.buffer.Reset();
+                ResetTraining(rlapi);
             }
             if (isDead)
             {
@@ -93,5 +95,10 @@ public partial class Level : Node2D
         Player playerInstance = playerScene.Instantiate() as Player;
         AddChild(playerInstance);
         rlapi.player = playerInstance;
+    }
+    private void ResetTraining(RLAPI rlapi)
+    {
+        rlapi.carAgent.buffer.Reset();
+        terrain.ResetGasCans();
     }
 }

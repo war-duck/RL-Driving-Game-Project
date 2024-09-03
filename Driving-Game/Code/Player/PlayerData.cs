@@ -33,4 +33,13 @@ public class PlayerData
         data[5] = Speed;
         return new BasicMLData(data);
     }
+
+    public static String[] paramNames = [
+        "Rotation",
+        "Slope",
+        "DistToGround",
+        "AngularVelocity",
+        "IsTouchingGround?",
+        "Speed"
+    ];
 }

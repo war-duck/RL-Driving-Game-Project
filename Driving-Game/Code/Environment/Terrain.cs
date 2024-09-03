@@ -19,19 +19,20 @@ public partial class Terrain : StaticBody2D
     [Export] Line2D terrainLine;
     [Export] StaticBody2D collisionBody;
     [Export] AnimatedSprite2D finishFlag;
+    List<GasCan> gasCans = new List<GasCan>();
+    Vector2[] vertices;
     PackedScene gasCanScene = GD.Load<PackedScene>("res://Scenes/GasCan.tscn");
     public override void _Ready()
     {
-        Vector2[] vertices;
         vertices = GenerateTerrainVertices();
-        AddGasCans(vertices.ToArray());
-        ApplyVerticesToChildren(vertices);
+        AddGasCans();
+        ApplyVerticesToChildren();
     }
 
     private Vector2[] GenerateTerrainVertices()
     {
         FastNoiseLite noise = new FastNoiseLite();
-        List<Vector2> vertices = new List<Vector2>();
+        List<Vector2> verticesList = new List<Vector2>();
         ConfigureNoise(noise);
         for (int i = 0; i <= totalSliceCount; i++)
         {
@@ -40,20 +41,20 @@ public partial class Terrain : StaticBody2D
                 X = i * sliceWidth,
                 Y = noise.GetNoise1D(i) * yVariation * (1 + difficulty * (float)i / 1000)
             };
-            vertices.Add(point);
+            verticesList.Add(point);
         }
-        vertices.Add(vertices.Last() + new Vector2(200, 0));
-        Vector2 enclosingPoint = new Vector2(vertices.Last().X, -distToGround);
-        vertices.Add(enclosingPoint);
-        vertices.Add(enclosingPoint + new Vector2(2000, 0));
-        vertices.Add(enclosingPoint + new Vector2(2000, 2 * distToGround));
-        enclosingPoint = new Vector2(vertices.First().X - 2000, distToGround);
-        vertices.Add(enclosingPoint);
-        vertices.Add(enclosingPoint + new Vector2(0, -2 * distToGround));
-        vertices.Add(enclosingPoint + new Vector2(2000, -2 * distToGround));
-        return vertices.ToArray();
+        verticesList.Add(verticesList.Last() + new Vector2(200, 0));
+        Vector2 enclosingPoint = new Vector2(verticesList.Last().X, -distToGround);
+        verticesList.Add(enclosingPoint);
+        verticesList.Add(enclosingPoint + new Vector2(2000, 0));
+        verticesList.Add(enclosingPoint + new Vector2(2000, 2 * distToGround));
+        enclosingPoint = new Vector2(verticesList.First().X - 2000, distToGround);
+        verticesList.Add(enclosingPoint);
+        verticesList.Add(enclosingPoint + new Vector2(0, -2 * distToGround));
+        verticesList.Add(enclosingPoint + new Vector2(2000, -2 * distToGround));
+        return verticesList.ToArray();
     }
-    private void ApplyVerticesToChildren(Vector2[] vertices)
+    private void ApplyVerticesToChildren()
     {
         terrainPoly.Set(Polygon2D.PropertyName.Polygon, vertices);
         terrainLine.Set(Line2D.PropertyName.Points, vertices.Take(totalSliceCount + 2).ToArray());
@@ -69,18 +70,32 @@ public partial class Terrain : StaticBody2D
         noise.FractalGain = layerGain;
         noise.Frequency = noiseFrequency;
     }
-    private void AddGasCans(Vector2[] vertices)
+    private void AddGasCans()
     {
-        int distBetweenGasCans = (int)(75 * Math.Log2(difficulty + 2));
+        int distBetweenGasCans = (int)(50 * Math.Log2(difficulty + 2));
         int nodeNum = distBetweenGasCans;
         while (nodeNum < vertices.Length)
         {
             Vector2 pos = vertices[nodeNum];
             GasCan gasCan = gasCanScene.Instantiate<GasCan>();
+            gasCans.Add(gasCan);
             gasCan.Position = pos + new Vector2(0, -200);
             AddChild(gasCan);
             nodeNum += (int)(distBetweenGasCans + Math.Log10(nodeNum)); // wraz z dystansem i w zależności od trudności
                                                                     // kanistry będą się pojawiać rzadziej
         }
+    }
+    public void ResetGasCans()
+    {
+        foreach (var gasCan in gasCans)
+        {
+            if (gasCan == null)
+            {
+                continue;
+            }
+            gasCan.QueueFree();
+        }
+        gasCans.Clear();
+        AddGasCans();
     }
 }
