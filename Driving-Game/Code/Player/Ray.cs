@@ -43,8 +43,8 @@ public partial class Ray : Node2D
         Vector2 offset = new Vector2(0, 50);
         if (groundDistRay != null)
         {
-            DrawLine(groundDistRay.Position, groundDistRay.ToLocal(groundDistRay.GetCollisionPoint()), new Color(1, 0, 0), 5);
+            DrawLine(groundDistRay.Position, groundDistRay.ToLocal(groundDistRay.GetCollisionPoint()), new Color(1, 0, 0), 5, antialiased: true);
         }
-        DrawLine(ToLocal(slopeRays[0].GetCollisionPoint() + offset), ToLocal(slopeRays[1].GetCollisionPoint() + offset), new Color(0, 1, 0), 5);
+        DrawLine(ToLocal(slopeRays[0].GetCollisionPoint() + offset), ToLocal(slopeRays[1].GetCollisionPoint() + offset), new Color(0, 1, 0), 5, antialiased: true);
     }
 }

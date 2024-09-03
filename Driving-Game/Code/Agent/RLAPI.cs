@@ -7,7 +7,8 @@ public class RLAPI
     private static double rewardDistance = 10;
     public Player player;
     public CarAgent carAgent;
-    private int maxEpisodeLength, currentEpisodeLength = 0;
+    int maxEpisodeLength;
+    public int currentEpisodeLength = 0;
     private double firstPosition = 0;
     private int lastDistance = 0;
     public RLAPI(Player player, CarAgent agent)
@@ -17,7 +18,6 @@ public class RLAPI
         firstPosition = player.playerData.GlobalPositionX;
         maxEpisodeLength = DataLoader.Instance.GetTrainingParams().maxEpisodeLength;
     }
-
     public void ApplyModelInput(InputType input)
     {
         player.SetCurrentInput(input);

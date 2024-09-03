@@ -9,6 +9,7 @@ public class Buffer
     int counter, bufferSize; // counter - ilość elementów w buforze, bufferSize - maksymalna ilość elementów w buforze
     bool isFull;
     double lastValue;
+    public int stepCount;
     public Buffer()
     {
         TrainingParams trainingParams = DataLoader.Instance.GetTrainingParams();
@@ -28,6 +29,7 @@ public class Buffer
         {
             throw new OverflowException("Buffer overflow");
         }
+        ++stepCount;
         if (counter == bufferSize - 1)
         {
             isFull = true;

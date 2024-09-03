@@ -23,12 +23,12 @@ public class DataLoader
             policyTrainSteps = 80,
             valueTrainSteps = 80,
             discount = 0.99,
-            lambda = 0.95,
+            lambda = 0.96,
             clipRatio = 0.2,
             policyLearningRate = 0.0003,
             valueLearningRate = 0.001,
             targetKLDivergence = 0.01,
-            maxEpisodeLength = 5000000
+            maxEpisodeLength = 50000
         };
         agentData = new AgentData
         {

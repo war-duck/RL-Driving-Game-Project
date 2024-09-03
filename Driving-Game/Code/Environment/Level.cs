@@ -45,14 +45,16 @@ public partial class Level : Node2D
             }
             catch (OverflowException) // buffer full
             {
+                SaveIfNeeded(rlapi);
                 rlapi.ProcessBuffer();
                 rlapi.carAgent.Train();
                 networkDisplayer.DisplayNetwork(players[0].carAgent.GetAgents().Item1.model.Flat);
-                ResetTraining(rlapi);
+                rlapi.carAgent.buffer.Reset();
             }
             if (isDead)
             {
                 ResetPlayer(rlapi);
+                ResetTraining(rlapi);
             }
         }
     }
@@ -72,8 +74,8 @@ public partial class Level : Node2D
         {
 			Player playerInstance = playerScene.Instantiate() as Player;
 			AddChild(playerInstance);
-            // var carAgent = CarAgent.LoadCarAgentFromNewest() ?? new CarAgent();
-            var carAgent = new CarAgent();
+            var carAgent = CarAgent.LoadCarAgentFromNewest() ?? new CarAgent();
+            // var carAgent = new CarAgent();
             players.Add(new RLAPI(playerInstance, carAgent));
         }
     }
@@ -100,5 +102,18 @@ public partial class Level : Node2D
     {
         rlapi.carAgent.buffer.Reset();
         terrain.ResetGasCans();
+    }
+    bool hasBeenSaved;
+    private void SaveIfNeeded(RLAPI rlapi)
+    {
+        if ((int)(Time.GetTimeDictFromSystem()["minute"]) % 20 == 0 && !hasBeenSaved)
+        {
+            rlapi.carAgent.SaveNetwork();
+            hasBeenSaved = true;
+        }
+        else if ((int)(Time.GetTimeDictFromSystem()["minute"]) % 20 != 0)
+        {
+            hasBeenSaved = false;
+        }
     }
 }

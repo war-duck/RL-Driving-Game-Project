@@ -9,7 +9,7 @@ public partial class Terrain : StaticBody2D
     [Export] int yVariation = 500;
     [Export] int sliceWidth = 50;
     [Export] int totalSliceCount = 5000;
-    [Export] int noiseSeed = 0;
+    [Export] int noiseSeed = 1;
     [Export] int distToGround = 5000;
     [Export(PropertyHint.Range, "0,20,2")] int difficulty = 3;
     [Export(PropertyHint.Range, "-5,5")] float layerGain = 0.5f;
@@ -89,11 +89,8 @@ public partial class Terrain : StaticBody2D
     {
         foreach (var gasCan in gasCans)
         {
-            if (gasCan == null)
-            {
-                continue;
-            }
-            gasCan.QueueFree();
+            if (IsInstanceValid(gasCan))
+                gasCan.QueueFree();
         }
         gasCans.Clear();
         AddGasCans();

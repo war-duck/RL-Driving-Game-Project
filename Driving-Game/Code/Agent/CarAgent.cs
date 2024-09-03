@@ -30,6 +30,7 @@ public class CarAgent
         var critic = files.Find(f => f.Contains("critic"));
         if (critic == null || actor == null)
             return null;
+        Console.WriteLine("Restarting from files: " + actor + "  " + critic);
         return new CarAgent((BasicNetwork)FileManager.LoadObject(actor, ""), (BasicNetwork)FileManager.LoadObject(critic, ""));
     }
     public (IMLData, InputType) GetAction(IMLData observation)
@@ -61,13 +62,7 @@ public class CarAgent
         var criticError = critic.model.CalculateError(new BasicMLDataSet(GeneralUtils.IMLDataArrayToDoubleArray(buffer.GetBuffer().Item1), criticGoals));
         Console.WriteLine("Actor error: " + actorError);
         Console.WriteLine("Critic error: " + criticError);
-        FileManager.SaveLine(String.Join(",", Time.GetDatetimeStringFromSystem(), actorError, criticError)); 
-        var tmp = Time.GetTimeDictFromSystem()["minute"];
-        if ((int)(Time.GetTimeDictFromSystem()["minute"]) % 20 == 0 && (int)(Time.GetTimeDictFromSystem()["second"]) < 10)
-        {
-            SaveNetwork();
-        }
-        
+        FileManager.SaveLine(String.Join(",", Time.GetDatetimeStringFromSystem(), buffer.stepCount, actorError, criticError));
     }
     public double[] EvaluateStateValues(IMLData[] observations)
     {

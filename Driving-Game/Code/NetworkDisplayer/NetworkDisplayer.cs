@@ -67,7 +67,7 @@ public partial class NetworkDisplayer : Node2D
         var nameStringOffset = new Vector2(-circleRadius-200, circleRadius / 2);
         for (int i = 0; i < PlayerData.paramNames.Length; ++i)
         {
-            DrawString(font, nodes[0][i]  + nameStringOffset, PlayerData.paramNames[i],
+            DrawString(font, nodes[0][i]  + nameStringOffset, PlayerData.paramNames[PlayerData.paramNames.Length - 1 - i],
              modulate: new Color(0.7f,0.7f,0.7f), fontSize: (int)(circleRadius * 1.5), width: 200,
              alignment: HorizontalAlignment.Right);
         }
