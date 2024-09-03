@@ -65,7 +65,8 @@ public class Buffer
         double[][] actorGoals = new double[counter][];
         for (int t = 0; t < counter; t++)
         {
-            actorGoals[t] = CalcActorGoal(advantages[t], logProbBuffer[t]);
+            // actorGoals[t] = CalcActorGoal(advantages[t], logProbBuffer[t]);
+            actorGoals[t] = CalcActorGoal(advantages[t], actionBuffer[t]);
         }
         return (actorGoals, GeneralUtils.To2DArray(qValues));
     }
@@ -85,6 +86,12 @@ public class Buffer
         {
             actorGoal[i] = advantage * logProb[i];
         }
+        return GeneralUtils.ToSoftmax(actorGoal);
+    }
+    double[] CalcActorGoal(double advantage, int action)
+    {
+        double[] actorGoal = new double[3];
+        actorGoal[action] = advantage;
         return GeneralUtils.ToSoftmax(actorGoal);
     }
     public void CalcAdvantages()

@@ -71,7 +71,7 @@ public partial class Terrain : StaticBody2D
     }
     private void AddGasCans(Vector2[] vertices)
     {
-        int distBetweenGasCans = (int)(100 * Math.Log2(difficulty + 2));
+        int distBetweenGasCans = (int)(75 * Math.Log2(difficulty + 2));
         int nodeNum = distBetweenGasCans;
         while (nodeNum < vertices.Length)
         {

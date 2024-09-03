@@ -34,7 +34,7 @@ public class DataLoader
         {
             inputSize = PlayerData.trainingParamsCount,
             outputSize = 3,
-            hiddenLayers = new int[] { 13 }
+            hiddenLayers = new int[] { 5 }
         };
     }
     public TrainingParams GetTrainingParams()

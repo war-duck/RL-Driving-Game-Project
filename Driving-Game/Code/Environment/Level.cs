@@ -11,10 +11,14 @@ public partial class Level : Node2D
     private PackedScene rayScene = GD.Load<PackedScene>("res://Scenes/Ray.tscn");
     public List<RLAPI> players = new List<RLAPI>();
 	private Camera2D camera;
+    private NetworkDisplayer networkDisplayer;
     public override void _Ready()
     {
 		camera = GetNode<Camera2D>("Camera");
         SpawnPlayers(1);
+        networkDisplayer = GetNode<NetworkDisplayer>("UI/Network");
+        networkDisplayer.SetNetwork(players[0].carAgent.GetAgents().Item1.model);
+        networkDisplayer.DisplayNetwork(players[0].carAgent.GetAgents().Item1.model.Flat);
     }
 
     public override void _Process(double delta)
@@ -41,6 +45,7 @@ public partial class Level : Node2D
             {
                 rlapi.ProcessBuffer();
                 rlapi.carAgent.Train();
+                networkDisplayer.DisplayNetwork(players[0].carAgent.GetAgents().Item1.model.Flat);
                 rlapi.carAgent.buffer.Reset();
             }
             if (isDead)
@@ -65,8 +70,9 @@ public partial class Level : Node2D
         {
 			Player playerInstance = playerScene.Instantiate() as Player;
 			AddChild(playerInstance);
-            // players.Add(new RLAPI(playerInstance, new CarAgent()));
-            players.Add(new RLAPI(playerInstance, CarAgent.LoadCarAgentFromNewest()));
+            // var carAgent = CarAgent.LoadCarAgentFromNewest() ?? new CarAgent();
+            var carAgent = new CarAgent();
+            players.Add(new RLAPI(playerInstance, carAgent));
         }
     }
 	private Vector2 GetBestPlayerPosition()

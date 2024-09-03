@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://xgujj7w3lvjq"]
+[gd_scene load_steps=5 format=3 uid="uid://xgujj7w3lvjq"]
 
 [ext_resource type="Script" path="res://Code/Environment/Level.cs" id="1_g5x78"]
 [ext_resource type="PackedScene" uid="uid://d3ajyqswqiers" path="res://Scenes/Terrain.tscn" id="2_c0jo6"]
+[ext_resource type="PackedScene" uid="uid://7303o0q5vp" path="res://Scenes/UI.tscn" id="3_nlgjv"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ntfxq"]
 
@@ -19,3 +20,5 @@ drag_horizontal_offset = 0.55
 drag_left_margin = 0.8
 editor_draw_limits = true
 editor_draw_drag_margin = true
+
+[node name="UI" parent="." instance=ExtResource("3_nlgjv")]

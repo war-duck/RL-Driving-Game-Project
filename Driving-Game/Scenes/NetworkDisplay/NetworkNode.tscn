@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://kl2sht7d4duj"]
+
+[ext_resource type="Script" path="res://Code/NetworkDisplayer/NetworkNode.cs" id="1_cc562"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_8h3ho"]
+radius = 100.0
+height = 200.0
+
+[sub_resource type="Gradient" id="Gradient_0e5eo"]
+offsets = PackedFloat32Array(0, 0.0237069, 1)
+colors = PackedColorArray(0.400698, 0.400698, 0.400698, 1, 0.712129, 0.712129, 0.712129, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kenne"]
+gradient = SubResource("Gradient_0e5eo")
+fill_from = Vector2(1, 1)
+
+[node name="NetworkNode" type="MeshInstance2D"]
+rotation = 1.5708
+mesh = SubResource("SphereMesh_8h3ho")
+texture = SubResource("GradientTexture2D_kenne")
+script = ExtResource("1_cc562")

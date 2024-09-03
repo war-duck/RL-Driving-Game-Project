@@ -26,9 +26,11 @@ public class CarAgent
     public static CarAgent LoadCarAgentFromNewest()
     {
         var files = Directory.GetFiles("Saves/Models/").OrderByDescending(f => new FileInfo(f).CreationTime).ToList();
-        var agent = files.Find(f => f.Contains("actor"));
+        var actor = files.Find(f => f.Contains("actor"));
         var critic = files.Find(f => f.Contains("critic"));
-        return new CarAgent((BasicNetwork)FileManager.LoadObject(agent, ""), (BasicNetwork)FileManager.LoadObject(critic, ""));
+        if (critic == null || actor == null)
+            return null;
+        return new CarAgent((BasicNetwork)FileManager.LoadObject(actor, ""), (BasicNetwork)FileManager.LoadObject(critic, ""));
     }
     public (IMLData, InputType) GetAction(IMLData observation)
     {
@@ -55,8 +57,17 @@ public class CarAgent
             buffer.CalcAdvantages();
         }
         (actorGoals, criticGoals) = buffer.GetACGoals();
-        Console.WriteLine("Actor error: " + actor.model.CalculateError(new BasicMLDataSet(GeneralUtils.IMLDataArrayToDoubleArray(buffer.GetBuffer().Item1), actorGoals)));
-        Console.WriteLine("Critic error: " + critic.model.CalculateError(new BasicMLDataSet(GeneralUtils.IMLDataArrayToDoubleArray(buffer.GetBuffer().Item1), criticGoals)));
+        var actorError = actor.model.CalculateError(new BasicMLDataSet(GeneralUtils.IMLDataArrayToDoubleArray(buffer.GetBuffer().Item1), actorGoals));
+        var criticError = critic.model.CalculateError(new BasicMLDataSet(GeneralUtils.IMLDataArrayToDoubleArray(buffer.GetBuffer().Item1), criticGoals));
+        Console.WriteLine("Actor error: " + actorError);
+        Console.WriteLine("Critic error: " + criticError);
+        FileManager.SaveLine(String.Join(",", Time.GetDatetimeStringFromSystem(), actorError, criticError)); 
+        var tmp = Time.GetTimeDictFromSystem()["minute"];
+        if ((int)(Time.GetTimeDictFromSystem()["minute"]) % 20 == 0 && (int)(Time.GetTimeDictFromSystem()["second"]) < 10)
+        {
+            SaveNetwork();
+        }
+        
     }
     public double[] EvaluateStateValues(IMLData[] observations)
     {
@@ -72,6 +83,10 @@ public class CarAgent
         var timestamp = Time.GetDatetimeStringFromSystem();
         FileManager.SaveObject(actor.model, "Saves/Models/", timestamp + "_actor");
         FileManager.SaveObject(critic.model, "Saves/Models/", timestamp + "_critic");
+    }
+    public (Agent, Agent) GetAgents()
+    {
+        return (actor, critic);
     }
     double[][] GetActorGoals(double[] advantages, double[] logProbs)
     {
