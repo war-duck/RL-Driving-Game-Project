@@ -1,6 +1,7 @@
 using Encog.ML.Data;
 using Encog.ML.Data.Buffer;
 using Encog.ML.Genetic.Genome;
+using Encog.Parse.Expression.Common;
 using Godot;
 using System.Collections.Generic;
 using System.Windows.Markup;
@@ -16,6 +17,7 @@ public partial class Level : Node2D
     Terrain terrain;
     public override void _Ready()
     {
+        GeneralUtils.ParseCMDLineArgs();
 		camera = GetNode<Camera2D>("Camera");
         SpawnPlayers(1);
         networkDisplayer = GetNode<NetworkDisplayer>("UI/Network");

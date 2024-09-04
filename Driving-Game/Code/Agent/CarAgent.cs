@@ -14,8 +14,8 @@ public class CarAgent
     public CarAgent(int inputSize, int outputSize, int[] hiddenLayers)
     {
         buffer = new Buffer();
-        actor = new Agent(inputSize, outputSize, hiddenLayers, new ActivationReLU(), new ActivationSoftMax(), buffer);
-        critic = new Agent(inputSize, 1, hiddenLayers, new ActivationReLU(), new ActivationLinear(), buffer);
+        actor = new Agent(inputSize, outputSize, hiddenLayers, DataLoader.Instance.agentData.activationFunction, new ActivationSoftMax(), buffer);
+        critic = new Agent(inputSize, 1, hiddenLayers, DataLoader.Instance.agentData.activationFunction, new ActivationLinear(), buffer);
     }
     public CarAgent(BasicNetwork actor, BasicNetwork critic)
     {
@@ -25,11 +25,22 @@ public class CarAgent
     }
     public static CarAgent LoadCarAgentFromNewest()
     {
-        var files = Directory.GetFiles("Saves/Models/").OrderByDescending(f => new FileInfo(f).CreationTime).ToList();
+        var files = Directory.GetFiles("Saves/Models/")
+                        .OrderByDescending(f => new FileInfo(f).CreationTime)
+                        .ToList();
+        files = files.FindAll(f => f.Contains(DataLoader.Instance.GetAgentParamString()));
+        if (files.Count == 0)
+        {
+            Console.WriteLine("No files matching \"" + DataLoader.Instance.GetAgentParamString() + "\"");
+            return null;
+        }
         var actor = files.Find(f => f.Contains("actor"));
         var critic = files.Find(f => f.Contains("critic"));
         if (critic == null || actor == null)
+        {
+            Console.WriteLine("No files matching the actor or critic");
             return null;
+        }
         Console.WriteLine("Restarting from files: " + actor + "  " + critic);
         return new CarAgent((BasicNetwork)FileManager.LoadObject(actor, ""), (BasicNetwork)FileManager.LoadObject(critic, ""));
     }
@@ -62,7 +73,7 @@ public class CarAgent
         var criticError = critic.model.CalculateError(new BasicMLDataSet(GeneralUtils.IMLDataArrayToDoubleArray(buffer.GetBuffer().Item1), criticGoals));
         Console.WriteLine("Actor error: " + actorError);
         Console.WriteLine("Critic error: " + criticError);
-        FileManager.SaveLine(String.Join(",", Time.GetDatetimeStringFromSystem(), buffer.stepCount, actorError, criticError));
+        FileManager.SaveLine(String.Join(",", Time.GetDatetimeStringFromSystem(), buffer.stepCount, actorError, criticError), name: DataLoader.Instance.GetAgentParamString() + "agent_log");
     }
     public double[] EvaluateStateValues(IMLData[] observations)
     {
@@ -76,8 +87,8 @@ public class CarAgent
     public void SaveNetwork()
     {
         var timestamp = Time.GetDatetimeStringFromSystem();
-        FileManager.SaveObject(actor.model, "Saves/Models/", timestamp + "_actor");
-        FileManager.SaveObject(critic.model, "Saves/Models/", timestamp + "_critic");
+        FileManager.SaveObject(actor.model, "Saves/Models/", timestamp + DataLoader.Instance.GetAgentParamString() + "_actor");
+        FileManager.SaveObject(critic.model, "Saves/Models/", timestamp + DataLoader.Instance.GetAgentParamString() + "_critic");
     }
     public (Agent, Agent) GetAgents()
     {

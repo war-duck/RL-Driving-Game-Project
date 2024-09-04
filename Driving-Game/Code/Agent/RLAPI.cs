@@ -11,6 +11,7 @@ public class RLAPI
     public int currentEpisodeLength = 0;
     private double firstPosition = 0;
     private int lastDistance = 0;
+    private int maxDistance;
     public RLAPI(Player player, CarAgent agent)
     {
         this.player = player;
@@ -22,6 +23,7 @@ public class RLAPI
     {
         player.SetCurrentInput(input);
     }
+
     public (IMLData, int) ProcessModelInput(double delta)
     {
         var (probs, action) = carAgent.GetAction(player.playerData.ToMLData());
@@ -36,17 +38,25 @@ public class RLAPI
         player.SetCurrentInput((InputType)action);
         player.MovePlayer(delta);
         ++currentEpisodeLength;
+        if (player.playerData.GlobalPositionX > maxDistance)
+        {
+            maxDistance = (int)player.playerData.GlobalPositionX;
+        }
         return GetReward();
     }
     public void KillPlayer()
     {
         player.QueueFree();
+        currentEpisodeLength = 0;
+        lastDistance = 0;
+        FileManager.SaveLine(String.Join(",", Time.GetDatetimeStringFromSystem(), maxDistance), name: DataLoader.Instance.GetAgentParamString() + "episode_log");
+        maxDistance = 0;
     }
     public (double, bool) GetReward()
     {
         if (player.playerData.HasDied)
         {
-            return (-5, true);
+            return (-3, true);
         }
         if (currentEpisodeLength >= maxEpisodeLength)
         {

@@ -1,3 +1,5 @@
+using Encog.Engine.Network.Activation;
+
 public class DataLoader
 {
     private static DataLoader instance;
@@ -18,42 +20,35 @@ public class DataLoader
     {
         trainingParams = new TrainingParams
         {
-            batchSize = 768,
-            epochs = 10,
-            policyTrainSteps = 80,
-            valueTrainSteps = 80,
-            discount = 0.99,
+            batchSize = 1024,
+            epochs = 1,
             lambda = 0.96,
-            clipRatio = 0.2,
-            policyLearningRate = 0.0003,
-            valueLearningRate = 0.001,
-            targetKLDivergence = 0.01,
-            maxEpisodeLength = 50000
+            maxEpisodeLength = 50000000
+
         };
         agentData = new AgentData
         {
             inputSize = PlayerData.trainingParamsCount,
             outputSize = 3,
-            hiddenLayers = new int[] { 5 }
+            hiddenLayers = new int[] { 5 },
+            activationFunction = new ActivationTANH(),
+            activationFunctionName = "TANH"
         };
     }
     public TrainingParams GetTrainingParams()
     {
         return trainingParams;
     }
+    public string GetAgentParamString()
+    {
+        return "act-" + agentData.activationFunctionName + "-hid-" + string.Join("/", agentData.hiddenLayers) + "-batch-" + trainingParams.batchSize + "-epochs-" + trainingParams.epochs + "-lambda-" + trainingParams.lambda;
+    }
 }
 public struct TrainingParams
 {
     public int batchSize;
     public int epochs;
-    public int policyTrainSteps;
-    public int valueTrainSteps;
-    public double discount;
     public double lambda;
-    public double clipRatio;
-    public double policyLearningRate;
-    public double valueLearningRate;
-    public double targetKLDivergence;
     public int maxEpisodeLength;
 }
 public struct AgentData
@@ -61,4 +56,6 @@ public struct AgentData
     public int inputSize;
     public int outputSize;
     public int[] hiddenLayers;
+    public IActivationFunction activationFunction;
+    public string activationFunctionName;
 }

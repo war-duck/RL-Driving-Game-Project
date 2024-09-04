@@ -13,10 +13,10 @@ public class FileManager
     {
         return EncogDirectoryPersistence.LoadObject(new FileInfo(path + name));
     }
-    FileStream fileStream;
-    public static void SaveLine(string line, string path = "Saves/")
+    public static void SaveLine(string line, string path = "Saves/Logs/", string name = null)
     {
-        using (StreamWriter writer = new StreamWriter(path + "log.txt", true))
+        name ??= "log";
+        using (StreamWriter writer = new StreamWriter(path + name + ".txt", true))
         {
             writer.WriteLine(line);
         }
