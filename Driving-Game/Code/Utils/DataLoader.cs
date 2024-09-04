@@ -23,7 +23,8 @@ public class DataLoader
             batchSize = 1024,
             epochs = 1,
             discount = 0.96,
-            maxEpisodeLength = 50000000
+            maxEpisodeLength = 12_000, // around 3 minutes
+            maxTrainingSteps = 2_000_000 // around 9.5 hours of training
 
         };
         agentData = new AgentData
@@ -54,6 +55,7 @@ public struct TrainingParams
     public int epochs;
     public double discount;
     public int maxEpisodeLength;
+    public int maxTrainingSteps;
 }
 public struct AgentData
 {

@@ -1,10 +1,4 @@
-using Encog.ML.Data;
-using Encog.ML.Data.Buffer;
-using Encog.ML.Genetic.Genome;
-using Encog.Parse.Expression.Common;
 using Godot;
-using System.Collections.Generic;
-using System.Windows.Markup;
 
 public partial class Level : Node2D
 {
@@ -15,6 +9,7 @@ public partial class Level : Node2D
     private NetworkDisplayer networkDisplayer;
     [Export]
     Terrain terrain;
+    int stepCount = 0;
     public override void _Ready()
     {
         GeneralUtils.ParseCMDLineArgs();
@@ -27,6 +22,10 @@ public partial class Level : Node2D
 
     public override void _Process(double delta)
     {
+        if (stepCount > DataLoader.Instance.trainingParams.maxTrainingSteps)
+        {
+            QueueFree();
+        }
         camera.GlobalPosition = GetBestPlayerPosition();
         foreach (var rlapi in players)
         {
@@ -59,6 +58,7 @@ public partial class Level : Node2D
                 ResetTraining(rlapi);
             }
         }
+        stepCount++;
     }
     public override void _ExitTree()
     {

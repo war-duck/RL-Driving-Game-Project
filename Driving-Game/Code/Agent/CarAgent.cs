@@ -73,7 +73,7 @@ public class CarAgent
         var criticError = critic.model.CalculateError(new BasicMLDataSet(GeneralUtils.IMLDataArrayToDoubleArray(buffer.GetBuffer().Item1), criticGoals));
         Console.WriteLine("Actor error: " + actorError);
         Console.WriteLine("Critic error: " + criticError);
-        FileManager.SaveLine(String.Join(",", Time.GetDatetimeStringFromSystem(), buffer.stepCount, actorError, criticError), name: DataLoader.Instance.GetAgentParamString() + "agent_log");
+        FileManager.SaveLine(String.Join(",", Time.GetDatetimeStringFromSystem(), buffer.stepCount, actorError, criticError), name: DataLoader.Instance.GetAgentParamString() + "-agent_log");
     }
     public double[] EvaluateStateValues(IMLData[] observations)
     {
