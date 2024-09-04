@@ -83,9 +83,9 @@ public static class GeneralUtils
             {
                 DataLoader.Instance.trainingParams.epochs = int.Parse(arg.Split('=')[1]);
             }
-            if (arg.Contains("lambda"))
+            if (arg.Contains("discount"))
             {
-                DataLoader.Instance.trainingParams.lambda = double.Parse(arg.Split('=')[1]);
+                DataLoader.Instance.trainingParams.discount = double.Parse(arg.Split('=')[1]);
             }
         }
     }

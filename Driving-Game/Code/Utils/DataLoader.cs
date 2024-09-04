@@ -22,7 +22,7 @@ public class DataLoader
         {
             batchSize = 1024,
             epochs = 1,
-            lambda = 0.96,
+            discount = 0.96,
             maxEpisodeLength = 50000000
 
         };
@@ -41,14 +41,18 @@ public class DataLoader
     }
     public string GetAgentParamString()
     {
-        return "act-" + agentData.activationFunctionName + "-hid-" + string.Join("/", agentData.hiddenLayers) + "-batch-" + trainingParams.batchSize + "-epochs-" + trainingParams.epochs + "-lambda-" + trainingParams.lambda;
+        return "act-" + agentData.activationFunctionName 
+            + "-hid-" + string.Join("/", agentData.hiddenLayers) 
+            + "-batch-" + trainingParams.batchSize 
+            + "-epochs-" + trainingParams.epochs 
+            + "-discount-" + trainingParams.discount;
     }
 }
 public struct TrainingParams
 {
     public int batchSize;
     public int epochs;
-    public double lambda;
+    public double discount;
     public int maxEpisodeLength;
 }
 public struct AgentData

@@ -5,7 +5,7 @@ public class Buffer
     int[] actionBuffer;
     IMLData[] observationBuffer;
     double[][] logProbBuffer;
-    double discount, lambda;
+    double discount;
     int counter, bufferSize; // counter - ilość elementów w buforze, bufferSize - maksymalna ilość elementów w buforze
     bool isFull;
     double lastValue;
@@ -14,7 +14,6 @@ public class Buffer
     {
         TrainingParams trainingParams = DataLoader.Instance.GetTrainingParams();
         discount = trainingParams.discount;
-        lambda = trainingParams.lambda;
         bufferSize = trainingParams.batchSize;
         rewardBuffer = new double[bufferSize];
         valueBuffer = new double[bufferSize];

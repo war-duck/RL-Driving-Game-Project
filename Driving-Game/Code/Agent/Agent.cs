@@ -13,7 +13,7 @@ public class Agent
     public BasicNetwork model;
     Buffer buffer;
     public int batchSize, epochs, policyTrainSteps, valueTrainSteps;
-    public double discount, lambda, clipRatio, policyLearningRate, valueLearningRate, targetKLDivergence;
+    public double discount;
     public Agent(int inputSize, int outputSize, int[] hiddenLayers, Buffer buffer) : this(inputSize, outputSize, hiddenLayers, new ActivationReLU(), new ActivationSoftMax(), buffer) { }
 
     public Agent(int inputSize, int outputSize, int[] hiddenLayers, IActivationFunction activationFunction, IActivationFunction outputActivationFunction, Buffer buffer)
@@ -109,13 +109,6 @@ public class Agent
         TrainingParams trainingParams = DataLoader.Instance.GetTrainingParams();
         batchSize = trainingParams.batchSize;
         epochs = trainingParams.epochs;
-        policyTrainSteps = trainingParams.policyTrainSteps;
-        valueTrainSteps = trainingParams.valueTrainSteps;
         discount = trainingParams.discount;
-        lambda = trainingParams.lambda;
-        clipRatio = trainingParams.clipRatio;
-        policyLearningRate = trainingParams.policyLearningRate;
-        valueLearningRate = trainingParams.valueLearningRate;
-        targetKLDivergence = trainingParams.targetKLDivergence;
     }
 }
