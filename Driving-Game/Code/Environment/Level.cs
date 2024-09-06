@@ -113,7 +113,7 @@ public partial class Level : Node2D
             rlapi.carAgent.SaveNetwork();
             hasBeenSaved = true;
         }
-        else if ((int)(Time.GetTimeDictFromSystem()["minute"]) %60 != 0)
+        else if ((int)(Time.GetTimeDictFromSystem()["minute"]) % 60 != 0)
         {
             hasBeenSaved = false;
         }

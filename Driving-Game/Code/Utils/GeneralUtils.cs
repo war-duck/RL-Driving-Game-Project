@@ -87,6 +87,23 @@ public static class GeneralUtils
             {
                 DataLoader.Instance.trainingParams.discount = double.Parse(arg.Split('=')[1]);
             }
+            if (arg.Contains("logger"))
+            {
+                switch (arg.Split('=')[1])
+                {
+                    case "console":
+                        Logger.SetLogger(new ConsoleLogger());
+                        break;
+                    case "null":
+                        Logger.SetLogger(new NullLogger());
+                        break;
+                    case "standard":
+                        Logger.SetLogger(new StandardLogger());
+                        break;
+                    default:
+                        throw new ArgumentException("Invalid logger");
+                }
+            }
         }
     }
 }

@@ -49,8 +49,8 @@ public class RLAPI
         player.QueueFree();
         currentEpisodeLength = 0;
         lastDistance = 0;
-        FileManager.SaveLine(String.Join(",", Time.GetDatetimeStringFromSystem(), maxDistance), name: DataLoader.Instance.GetAgentParamString() + "-episode_log");
         maxDistance = 0;
+        Logger.LogDistance(maxDistance);
     }
     public (double, bool) GetReward()
     {

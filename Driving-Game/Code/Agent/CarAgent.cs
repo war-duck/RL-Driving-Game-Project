@@ -31,17 +31,17 @@ public class CarAgent
         files = files.FindAll(f => f.Contains(DataLoader.Instance.GetAgentParamString()));
         if (files.Count == 0)
         {
-            Console.WriteLine("No files matching \"" + DataLoader.Instance.GetAgentParamString() + "\"");
+            Logger.Log("No files matching \"" + DataLoader.Instance.GetAgentParamString() + "\"");
             return null;
         }
         var actor = files.Find(f => f.Contains("actor"));
         var critic = files.Find(f => f.Contains("critic"));
         if (critic == null || actor == null)
         {
-            Console.WriteLine("No files matching the actor or critic");
+            Logger.Log("No actor or critic files found");
             return null;
         }
-        Console.WriteLine("Restarting from files: " + actor + "  " + critic);
+        Logger.Log("Loading actor: " + actor + " critic: " + critic);
         return new CarAgent((BasicNetwork)FileManager.LoadObject(actor, ""), (BasicNetwork)FileManager.LoadObject(critic, ""));
     }
     public (IMLData, InputType) GetAction(IMLData observation)
@@ -71,9 +71,7 @@ public class CarAgent
         (actorGoals, criticGoals) = buffer.GetACGoals();
         var actorError = actor.model.CalculateError(new BasicMLDataSet(GeneralUtils.IMLDataArrayToDoubleArray(buffer.GetBuffer().Item1), actorGoals));
         var criticError = critic.model.CalculateError(new BasicMLDataSet(GeneralUtils.IMLDataArrayToDoubleArray(buffer.GetBuffer().Item1), criticGoals));
-        Console.WriteLine("Actor error: " + actorError);
-        Console.WriteLine("Critic error: " + criticError);
-        FileManager.SaveLine(String.Join(",", Time.GetDatetimeStringFromSystem(), buffer.stepCount, actorError, criticError), name: DataLoader.Instance.GetAgentParamString() + "-agent_log");
+        Logger.LogError(actorError, criticError);
     }
     public double[] EvaluateStateValues(IMLData[] observations)
     {
@@ -86,9 +84,7 @@ public class CarAgent
     }
     public void SaveNetwork()
     {
-        var timestamp = Time.GetDatetimeStringFromSystem();
-        FileManager.SaveObject(actor.model, "Saves/Models/", timestamp + DataLoader.Instance.GetAgentParamString() + "_actor");
-        FileManager.SaveObject(critic.model, "Saves/Models/", timestamp + DataLoader.Instance.GetAgentParamString() + "_critic");
+        Logger.LogNetwork(actor.model, critic.model);
     }
     public (Agent, Agent) GetAgents()
     {

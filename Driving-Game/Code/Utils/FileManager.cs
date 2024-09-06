@@ -21,5 +21,4 @@ public class FileManager
             writer.WriteLine(line);
         }
     }
-    
 }
