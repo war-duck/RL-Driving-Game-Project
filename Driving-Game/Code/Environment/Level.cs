@@ -108,12 +108,12 @@ public partial class Level : Node2D
     bool hasBeenSaved;
     private void SaveIfNeeded(RLAPI rlapi)
     {
-        if ((int)(Time.GetTimeDictFromSystem()["minute"]) % 20 == 0 && !hasBeenSaved)
+        if ((int)(Time.GetTimeDictFromSystem()["minute"]) % 60 == 0 && !hasBeenSaved)
         {
             rlapi.carAgent.SaveNetwork();
             hasBeenSaved = true;
         }
-        else if ((int)(Time.GetTimeDictFromSystem()["minute"]) % 20 != 0)
+        else if ((int)(Time.GetTimeDictFromSystem()["minute"]) %60 != 0)
         {
             hasBeenSaved = false;
         }

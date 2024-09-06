@@ -24,7 +24,7 @@ public class DataLoader
             epochs = 1,
             discount = 0.96,
             maxEpisodeLength = 12_000, // around 3 minutes
-            maxTrainingSteps = 2_000_000 // around 9.5 hours of training
+            maxTrainingSteps = 1_200_000 // around 5.5 hours of training
 
         };
         agentData = new AgentData
@@ -43,7 +43,7 @@ public class DataLoader
     public string GetAgentParamString()
     {
         return "act-" + agentData.activationFunctionName 
-            + "-hid-" + string.Join("/", agentData.hiddenLayers) 
+            + "-hid-" + string.Join("_", agentData.hiddenLayers) 
             + "-batch-" + trainingParams.batchSize 
             + "-epochs-" + trainingParams.epochs 
             + "-discount-" + trainingParams.discount;
