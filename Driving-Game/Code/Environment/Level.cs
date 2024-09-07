@@ -33,12 +33,10 @@ public partial class Level : Node2D
             var observation = rlapi.player.playerData.ToMLData();
             var (value, policyDist) = rlapi.carAgent.LookAhead(observation);
             var action = RouletteWheel.RandomChoice(policyDist);
-            var logProb = Agent.CalcLogProb(policyDist);
-            var entropy = Agent.CalcEntropy(policyDist, logProb);
             var (reward, isDead) = rlapi.Step(action, delta);
             try
             {
-                rlapi.carAgent.buffer.Add(observation, reward, value, logProb, action);
+                rlapi.carAgent.buffer.Add(observation, reward, value, policyDist, action);
                 if (isDead)
                 {
                     throw new OverflowException();
