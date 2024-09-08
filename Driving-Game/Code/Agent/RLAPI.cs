@@ -49,8 +49,8 @@ public class RLAPI
         player.QueueFree();
         currentEpisodeLength = 0;
         lastDistance = 0;
-        maxDistance = 0;
         Logger.LogDistance(maxDistance);
+        maxDistance = 0;
     }
     public (double, bool) GetReward()
     {

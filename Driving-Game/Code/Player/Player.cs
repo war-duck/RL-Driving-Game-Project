@@ -10,7 +10,7 @@ public partial class Player : RigidBody2D
     InputType currentInput;
     CollisionPolygon2D deathPolygon;
     float wheelTorque = 3000;
-    float carTorque = 4500;
+    float carTorque = 7500;
     float maxWheelRotSpeed = 60;
     float maxCarRotSpeed = 10;
     bool isColliding = false;
@@ -91,7 +91,7 @@ public partial class Player : RigidBody2D
                 if (wheel.AngularVelocity < maxWheelRotSpeed)
                     wheel.ApplyTorqueImpulse(wheelTorque * (float)delta * 60);
             }
-            if (this.AngularVelocity > -maxCarRotSpeed)
+            if (this.AngularVelocity > -maxCarRotSpeed && !IsAnythingColliding())
                 this.ApplyTorqueImpulse(-carTorque * (float)delta * 60);
         }
         if (currentInput == InputType.Brake)
@@ -101,7 +101,7 @@ public partial class Player : RigidBody2D
                 if (wheel.AngularVelocity > -maxWheelRotSpeed)
                     wheel.ApplyTorqueImpulse(-wheelTorque * (float)delta * 60);
             }
-            if (this.AngularVelocity < maxCarRotSpeed)
+            if (this.AngularVelocity < maxCarRotSpeed && !IsAnythingColliding())
                 this.ApplyTorqueImpulse(carTorque * (float)delta * 60);
         }
     }

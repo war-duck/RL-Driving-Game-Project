@@ -24,7 +24,7 @@ public class DataLoader
             epochs = 1,
             discount = 0.96,
             maxEpisodeLength = 12_000, // around 3 minutes
-            maxTrainingSteps = 1_200_000, // around 5.5 hours of training
+            maxTrainingSteps = 1_000_000, // around 4.5 hours of training
             advNormClip = 5
         };
         agentData = new AgentData

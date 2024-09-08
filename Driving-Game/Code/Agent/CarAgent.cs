@@ -25,6 +25,11 @@ public class CarAgent
     }
     public static CarAgent LoadCarAgentFromNewest()
     {
+        if (Directory.Exists("Saves/Models/") == false)
+        {
+            Logger.Log("Directory \"Saves/Models/\" does not exist");
+            return null;
+        }
         var files = Directory.GetFiles("Saves/Models/")
                         .OrderByDescending(f => new FileInfo(f).CreationTime)
                         .ToList();

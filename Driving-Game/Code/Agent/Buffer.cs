@@ -137,8 +137,10 @@ public class Buffer
             advantages[t] -= valueBuffer[t];
         }
         // normalize advantages to [-1, 1]
-        double maxAdv = Math.Max(advantages.Max(),  DataLoader.Instance.GetTrainingParams().advNormClip);
-        double minAdv = Math.Min(advantages.Min(), -DataLoader.Instance.GetTrainingParams().advNormClip);
+        double maxAdv = Math.Max(Math.Max(advantages.Max(),  DataLoader.Instance.GetTrainingParams().advNormClip),
+                                -Math.Min(advantages.Min(), -DataLoader.Instance.GetTrainingParams().advNormClip));
+                // Largest distance from 0, clipped
+        double minAdv = -maxAdv;
         for (int t = 0; t < counter; t++)
         {
             advantages[t] = (advantages[t] - minAdv) / (maxAdv - minAdv);

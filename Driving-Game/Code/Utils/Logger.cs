@@ -36,7 +36,7 @@ public class ConsoleLogger : ILogger
 {
     public void LogError(double actorError, double criticError)
     {
-        Console.WriteLine("Actor Error: " + actorError + " Critic Error: " + criticError);
+        Console.WriteLine("Actor Error: " + actorError.ToString("F3") + " Critic Error: " + criticError.ToString("F3"));
     }
     public void LogDistance(double distance)
     {
@@ -55,6 +55,7 @@ public class StandardLogger : ILogger
     public void LogError(double actorError, double criticError)
     {
         FileManager.SaveLine(string.Join(",", Time.GetDatetimeStringFromSystem(), actorError, criticError), name: DataLoader.Instance.GetAgentParamString() + "_error");
+        Console.WriteLine("Actor Error: " + actorError.ToString("F3") + " Critic Error: " + criticError.ToString("F3"));
     }
     public void LogDistance(double distance)
     {
@@ -69,7 +70,6 @@ public class StandardLogger : ILogger
     public void Log(string message)
     {
         Console.WriteLine(message);
-        FileManager.SaveLine(message, name: DataLoader.Instance.GetAgentParamString() + "_log");
     }
 }
 public class NullLogger : ILogger
