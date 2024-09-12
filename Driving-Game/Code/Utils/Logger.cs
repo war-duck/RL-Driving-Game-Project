@@ -54,12 +54,12 @@ public class StandardLogger : ILogger
 {
     public void LogError(double actorError, double criticError)
     {
-        FileManager.SaveLine(string.Join(",", Time.GetDatetimeStringFromSystem(), actorError, criticError), name: DataLoader.Instance.GetAgentParamString() + "_error");
+        FileManager.SaveLine(string.Join(",", Time.GetDatetimeStringFromSystem(), actorError.ToString(System.Globalization.CultureInfo.InvariantCulture), criticError.ToString(System.Globalization.CultureInfo.InvariantCulture)), name: DataLoader.Instance.GetAgentParamString() + "_error");
         Console.WriteLine("Actor Error: " + actorError.ToString("F3") + " Critic Error: " + criticError.ToString("F3"));
     }
     public void LogDistance(double distance)
     {
-        FileManager.SaveLine(string.Join(",", Time.GetDatetimeStringFromSystem(), distance), name: DataLoader.Instance.GetAgentParamString() + "_distance");
+        FileManager.SaveLine(string.Join(",", Time.GetDatetimeStringFromSystem(), distance.ToString(System.Globalization.CultureInfo.InvariantCulture)), name: DataLoader.Instance.GetAgentParamString() + "_distance");
     }
     public void LogNetwork(BasicNetwork actor, BasicNetwork critic)
     {

@@ -46,7 +46,7 @@ public class DataLoader
             + "-hid-" + string.Join("_", agentData.hiddenLayers) 
             + "-batch-" + trainingParams.batchSize 
             + "-epochs-" + trainingParams.epochs 
-            + "-discount-" + trainingParams.discount;
+            + "-discount-" + trainingParams.discount.ToString(System.Globalization.CultureInfo.InvariantCulture);
     }
 }
 public struct TrainingParams

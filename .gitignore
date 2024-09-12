@@ -43,5 +43,5 @@ Driving-Game/Images/Other/Flag.png.import
 Driving-Game/Code.Tests/bin/
 Driving-Game/Code.Tests/obj/
 Driving-Game/Code.Tests/TestResults/
-Driving-Game/Saves/Models/old/
-Driving-Game/Saves/Logs/old/
+Driving-Game/Saves/
+Target/Saves/
